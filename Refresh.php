@@ -1,23 +1,17 @@
-<?php 
+<?php
     $con = mysqli_connect("localhost", "hongdroid94", "password", "hongdroid94");
-    mysqli_query($con,'SET NAMES utf8');
-
-    $userID = $_POST["userID"];
-    $userPassword = $_POST["userPassword"];
-    $userName = $_POST["userName"];
-    $userAge = $_POST["userAge"];
-
-    $statement = mysqli_prepare($con, "INSERT INTO USER VALUES (?,?,?,?)");
-    mysqli_stmt_bind_param($statement, "sssi", $userID, $userPassword, $userName, $userAge);
-    mysqli_stmt_execute($statement);
-
-
-    $response = array();
-    $response["success"] = true;
- 
-   
-    echo json_encode($response);
-
-
-
+    $sql = "SELECT waher_num, washer_state, finish_time FROM WASHER";
+    $result = mysqli_query($con, $sql)
+    $data = array();;
+    if ($result) {
+        while($row = mysqli_fetch_assoc($result)) {
+            array_push($data, array('waher_num'=>$row[0], 'waher_state'=>$row[1], 'finish_time'=>$row[2]));
+        }
+        header('Content-Type: application/json; charset=utf8');
+        $json = json_encode(array("refresh"=>$data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
+        echo $json;
+    }else{
+    echo "SQL ERROR";
+    }
+    mysqli_close($con); // 디비 접속 닫기
 ?>
