@@ -2,30 +2,26 @@
     $con = mysqli_connect("localhost", "hongdroid94", "password", "hongdroid94");
     mysqli_query($con,'SET NAMES utf8');
 
-    $userID = $_POST["userID"];
-    $userPassword = $_POST["userPassword"];
+    $usr_num = $_POST["usr_num"];
+    $password = $_POST["password"];
     
-    $statement = mysqli_prepare($con, "SELECT * FROM USER WHERE userID = ? AND userPassword = ?");
-    mysqli_stmt_bind_param($statement, "ss", $userID, $userPassword);
+    $statement = mysqli_prepare($con, "SELECT * FROM USER WHERE usr_num = ? AND password = ?");
+    mysqli_stmt_bind_param($statement, "ss", $usr_num, $password);
     mysqli_stmt_execute($statement);
 
-
     mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $userID, $userPassword, $userName, $userAge);
+    mysqli_stmt_bind_result($statement, $usr_num, $password, $usr_name);
 
     $response = array();
     $response["success"] = false;
  
     while(mysqli_stmt_fetch($statement)) {
         $response["success"] = true;
-        $response["userID"] = $userID;
-        $response["userPassword"] = $userPassword;
-        $response["userName"] = $userName;
-        $response["userAge"] = $userAge;        
+        $response["usr_num"] = $user_num;
+        $response["password"] = $password;
+        $response["usr_name"] = $usr_name;     
     }
 
     echo json_encode($response);
-
-
 
 ?>
