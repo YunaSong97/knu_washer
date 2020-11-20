@@ -11,7 +11,7 @@
         $json = json_encode(array("refresh"=>$data), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
         echo $json;
     }else{
-    echo "SQL ERROR";
+        echo "SQL ERROR";
     }
     mysqli_close($con); // 디비 접속 닫기
 ?>
