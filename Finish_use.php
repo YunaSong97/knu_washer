@@ -1,5 +1,5 @@
 <?php
-    $con = mysqli_connect("localhost", "hongdroid94", "password", "hongdroid94");
+    $con = mysqli_connect("localhost", "moapp", "wodnjs13!", "moapp");
     mysqli_query($con,'SET NAMES utf8');
 
     $washer_num = $_POST["washer_num"];
