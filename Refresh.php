@@ -1,5 +1,5 @@
 <?php
-    $con = mysqli_connect("localhost", "hongdroid94", "password", "hongdroid94");
+    $con = mysqli_connect("localhost", "moapp", "wodnjs13!", "moapp");
     $sql = "SELECT waher_num, washer_state, finish_time FROM WASHER";
     $result = mysqli_query($con, $sql);
     $data = array();
