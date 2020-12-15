@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String usr_id = intent.getStringExtra("usr_id");
         //OOO님 환영합니다!
-        String usr_password = intent.getStringExtra("usr_password");
-        Toast.makeText(getApplicationContext(), usr_id+"님, 환영합니다!", Toast.LENGTH_LONG).show();
+        if(!TextUtils.isEmpty(usr_id)){
+            String usr_password = intent.getStringExtra("usr_password");
+            Toast.makeText(getApplicationContext(), usr_id+"님, 환영합니다!", Toast.LENGTH_LONG).show();
+        }
 
         /*intent에서 안넘어온 값을 get할시에 int -> default값, String -> null*/
         int hour = intent.getIntExtra("hour", -1);
