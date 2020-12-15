@@ -53,33 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //버튼 설정
-//
-//        washerBtn1 = (Button) findViewById(R.id.washer1);
-//        washerBtn1.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                onclick_washer(v, 1);
-//            }
-//        });
-//        washerBtn2 = (Button) findViewById(R.id.washer2);
-//        washerBtn2.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                onclick_washer(v, 2);
-//            }
-//        });
-//        washerBtn3 = (Button) findViewById(R.id.washer3);
-//        washerBtn3.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                onclick_washer(v, 3);
-//            }
-//        });
-//        washerBtn4 = (Button) findViewById(R.id.washer4);
-//        washerBtn4.setOnClickListener(new View.OnClickListener() {
-//                public void onClick(View v) {
-//                    onclick_washer(v, 4);
-//                }
-//            });
-
         Intent intent = getIntent();
         String usr_id = intent.getStringExtra("usr_id");
         //OOO님 환영합니다!
