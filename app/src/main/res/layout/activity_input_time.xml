@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".InputTime">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/washer_id_text"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#DA2127"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+
+
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="0.7"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1" />
+            <EditText
+                android:id="@+id/hour_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:inputType="number"
+                android:maxLength="2"/>
+            <TextView
+                android:layout_width="0dp"
+                android:text = "시간"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1" />
+
+            <EditText
+                android:id="@+id/minute_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:inputType="number"
+                android:maxLength="2"/>
+            <TextView
+                android:layout_width="0dp"
+                android:textStyle="bold"
+                android:text = "분"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1" />
+            <TextView
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_weight="0.05" />
+
+            <Button
+                android:id="@+id/OK_bt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.15"
+                android:paddingVertical="5dp"
+                android:text="확인"
+                android:textStyle="bold"
+                android:textSize="15dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1" />
+
+        </LinearLayout>
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <!-- 120분이 최대이고 이를 5로 나눠서 24등분 -->
+
+        <SeekBar
+            android:id="@+id/time_seek_bar"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:max="24"
+            android:layout_gravity="center_horizontal"
+            android:progress="10"
+            android:secondaryProgress="10" />
+
+        <TextView
+            android:layout_weight="4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>
