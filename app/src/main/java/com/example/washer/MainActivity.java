@@ -3,6 +3,8 @@ package com.example.washer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -29,16 +31,46 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
+    private View header;
+
     Button washerBtn1,washerBtn2,washerBtn3,washerBtn4;
     static final int washerNum = 4;
+    static final int dormNum = 4;
 
     Washer[] washers = new Washer[washerNum];
+    TextView[] dormButton = new TextView[dormNum];
     String usr_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        for (int i = 0; i < washerNum; i++){
+            dormButton[i] = (TextView) findViewById(getResources().getIdentifier("dorm" + String.valueOf(i+1), "id", getPackageName()));
+            final int finalI = i;//익명함수에서는 로컬변수와 함수파라미터에 접근 못하므로 final로 고쳐야한다
+            //참조 :  https://dreamaz.tistory.com/259
+            Log.d(TAG, "i is " + String.valueOf(i));
+//            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
+            dormButton[i].setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "dorm " + String.valueOf(finalI+1) + " 선택", Toast.LENGTH_LONG).show();
+//                    setContentView(R.layout.activity_main);
+                }
+            });
+        }
+        //header안해도 되는데?
+//        header = getLayoutInflater().inflate(R.layout.side_navi_main, null, false);
+//        TextView textView = findViewById(R.id.dorm1);
+//        textView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "dorm 1 선택", Toast.LENGTH_LONG).show();
+////                DrawerLayout drawer = findViewById(R.id.drawerView);
+////                drawer.closeDrawer(GravityCompat.START);
+//                setContentView(R.layout.activity_main);
+//            }
+//        });
 
         //Main Activity로 돌아오면 이게 작동돼서 new로 washer가 초기화된다.
         //DB랑 연동해야함
@@ -167,6 +199,8 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<4;i++){
             timer[i].schedule(validate_washer_time, 0, 1000);
         }*/
+
+
     }
     public void onclick_washer(View view, int washerId) {
         Intent InputTimeIntent = new Intent(MainActivity.this, InputTime.class);
