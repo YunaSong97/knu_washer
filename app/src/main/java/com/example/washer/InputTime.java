@@ -105,6 +105,7 @@ public class InputTime extends AppCompatActivity {
                     main_act.putExtra("minute",left_minute); /*송신*/
                     main_act.putExtra("washerId", washerId); /*송신*/
                     main_act.putExtra("dormId", dormId); /*송신*/
+
                     startActivity(main_act);
                 }
 

@@ -200,14 +200,20 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        if (washers[i][j].isWashDone()) {
+                        else if (washers[i][j].isWashDone()) {
                             //busy하지 않고 wash가 done이면
                             if(i == dormId-1) {
                                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
                                 changed_washer_time.setText("세탁완료");
                             }
-
                         }
+                        else{
+                            if(i == dormId-1){
+                                TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                changed_washer_time.setText("사용가능");
+                            }
+                        }
+
                     }
                 }
 
