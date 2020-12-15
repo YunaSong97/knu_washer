@@ -4,11 +4,11 @@ import android.view.View;
 import android.widget.Button;
 
 public class Washer {
-    boolean busy = false;
-    int left_second = 0;
-    int id = 0;
-    long destiny_millis_time = 0;
-    Button button;
+    private boolean busy = false;
+    private int left_second = 0;
+    private int id = 0;
+    private long destiny_millis_time = 0;
+    private final Button button;
 
     public Washer(int id, Button button) {
         this.id = id;

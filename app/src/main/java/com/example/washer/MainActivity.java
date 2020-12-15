@@ -38,18 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        for (int i = 0; i < washerNum; i++){
-            washers[i] = new Washer(i+1, (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(i+1), "id", getPackageName())));
-            final int finalI = i;//익명함수에서는 로컬변수와 함수파라미터에 접근 못하므로 final로 고쳐야한다
-            //참조 :  https://dreamaz.tistory.com/259
-            Log.d(TAG, "i is " + String.valueOf(i));
-//            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
-            washers[i].setButtonListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    onclick_washer(v, washers[finalI].getId());
-                }
-            });
-        }
+
 
 
 
@@ -60,33 +49,60 @@ public class MainActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(usr_id)){
             String usr_password = intent.getStringExtra("usr_password");
             Toast.makeText(getApplicationContext(), usr_id+"님, 환영합니다!", Toast.LENGTH_LONG).show();
+
+            //로그인 할때만 만든다
+            for (int i = 0; i < washerNum; i++){
+                washers[i] = new Washer(i+1, (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(i+1), "id", getPackageName())));
+                final int finalI = i;//익명함수에서는 로컬변수와 함수파라미터에 접근 못하므로 final로 고쳐야한다
+                //참조 :  https://dreamaz.tistory.com/259
+                Log.d(TAG, "i is " + String.valueOf(i));
+//            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
+                washers[i].setButtonListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        onclick_washer(v, washers[finalI].getId());
+                    }
+                });
+            }
         }
 
+
+
         /*intent에서 안넘어온 값을 get할시에 int -> default값, String -> null*/
+        
+        /*InputTime에서 세탁기 시간을 설정했을 경우*/
         int hour = intent.getIntExtra("hour", -1);
         int minute = intent.getIntExtra("minute", -1);
-        final int washerId = intent.getIntExtra("washerId", -1);
+        int washerId = intent.getIntExtra("washerId", -1);
         if (hour != -1 && minute != -1){
+            for(int i = 0; i< washerNum; i++){
+                Log.d(TAG, "busy check" + String.valueOf(i+1) + String.valueOf(washers[i].isBusy()));
+            }
             //Login Activity에서 넘어오는 것을 대비하여 체크해줘야한다
             //세탁기 정보가 설정됨
             int left_minute = hour * 60 + minute;
             long destiny_time_millis = System.currentTimeMillis() + left_minute * 60 *1000;
-            washers[washerId-1].setDestiny_millis_time(destiny_time_millis);
-            TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
-            Log.d(TAG, String.valueOf(washerId));
-            washers[washerId-1].setBusy(true);
-            if (hour != 0) {
-                Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
-                        "번 세탁기에서 " + String.valueOf(hour) + "시간" + String.valueOf(minute) +
-                        " 분 실행", Toast.LENGTH_LONG).show();
-
-                changed_washer_time.setText("남은시간 : " + String.valueOf(hour) + ":" + String.valueOf(minute));
+            if (washers[washerId-1].isBusy()){
+                //세탁기 이미 돌아가고 있는중
+                Toast.makeText(getApplicationContext(), "이미 다른 사용자가 사용중인 세탁기입니다.", Toast.LENGTH_LONG).show();
             }
-            else{
-                Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
-                        "번 세탁기에서 "+ String.valueOf(minute) +
-                        " 분 실행", Toast.LENGTH_LONG).show();
-                changed_washer_time.setText("남은시간 : " + "0:" + String.valueOf(minute));
+            else {
+                //세탁기 목표 시간 설정
+                washers[washerId - 1].setDestiny_millis_time(destiny_time_millis);
+                TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
+                Log.d(TAG, String.valueOf(washerId));
+                washers[washerId - 1].setBusy(true);
+                if (hour != 0) {
+                    Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
+                            "번 세탁기에서 " + String.valueOf(hour) + "시간" + String.valueOf(minute) +
+                            " 분 실행", Toast.LENGTH_LONG).show();
+
+                    changed_washer_time.setText("남은시간 : " + String.valueOf(hour) + ":" + String.valueOf(minute));
+                } else {
+                    Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
+                            "번 세탁기에서 " + String.valueOf(minute) +
+                            " 분 실행", Toast.LENGTH_LONG).show();
+                    changed_washer_time.setText("남은시간 : " + "0:" + String.valueOf(minute));
+                }
             }
         }
         else{
@@ -97,9 +113,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //타이머 갱신
-                Log.d("MainActivity", String.valueOf(System.currentTimeMillis()));
+                //Log.d("MainActivity", String.valueOf(System.currentTimeMillis()));
                 for(int i = 0; i<washerNum; i++){
                     if (washers[i].isBusy()) {
+                        Log.d(TAG, String.valueOf(i+1) + "is busy");
                         long left_time_sec = (washers[i].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
                         int left_hour = (int) left_time_sec / 3600;
                         int left_minute = (int) left_time_sec / 60 - left_hour * 60;
