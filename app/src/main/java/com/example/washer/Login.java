@@ -21,6 +21,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Loading화면 띠우고 다시 돌아오기.
+        //Intent intent = new Intent(this, Loading.class);
+        //startActivity(intent);
 
         et_id = findViewById(R.id.et_id);
         et_password = findViewById(R.id.et_password);
@@ -42,10 +45,12 @@ public class Login extends AppCompatActivity {
                                 if (success) { // 로그인에 성공한 경우
                                     String usr_id = jsonObject.getString("usr_id");
                                     String usr_password = jsonObject.getString("usr_password");
+                                    String usr_dorm = jsonObject.getString("usr_dorm");
                                     Toast.makeText(getApplicationContext(), "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Login.this, MainActivity.class);
                                     intent.putExtra("usr_id", usr_id);
                                     intent.putExtra("usr_password", usr_password);
+                                    intent.putExtra("usr_dorm", usr_dorm);
                                     startActivity(intent);
                                 } else { // 로그인에 실패한 경우
                                     Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_SHORT).show();
