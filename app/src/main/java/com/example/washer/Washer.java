@@ -5,7 +5,6 @@ import android.widget.Button;
 
 public class Washer {
     private boolean busy = false;
-    private int left_second = 0;
     private int id = 0;
     private long destiny_millis_time = 0;
     private final Button button;
@@ -13,6 +12,16 @@ public class Washer {
     public Washer(int id, Button button) {
         this.id = id;
         this.button = button;
+
+    }
+
+    public boolean getImformFromDatabase(int id){
+        //id를 통해 DB에서 데이터 받아온다
+        boolean getImformSuccess = true;
+        this.destiny_millis_time = 0;
+        this.setBusy(true);
+
+        return getImformSuccess;
 
     }
     //=================================
@@ -37,14 +46,6 @@ public class Washer {
 
     public void setBusy(boolean busy) {
         this.busy = busy;
-    }
-
-    public int getLeft_second() {
-        return left_second;
-    }
-
-    public void setLeft_second(int left_second) {
-        this.left_second = left_second;
     }
 
     public int getId() {
