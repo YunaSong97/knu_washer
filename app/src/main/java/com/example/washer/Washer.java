@@ -5,9 +5,10 @@ import android.widget.Button;
 
 public class Washer {
     private boolean busy = false;
-    private int id = 0;
+    private int id;
     private long destiny_millis_time = 0;
     private final Button button;
+    private String usingUserId = "default";
 
     public Washer(int id, Button button) {
         this.id = id;
@@ -21,14 +22,16 @@ public class Washer {
         boolean getImformSuccess = true;
         this.destiny_millis_time = 0;
         this.setBusy(true);
+        this.usingUserId = "";
 
         return getImformSuccess;
     }
 
-    public boolean updateImformToDatabase( boolean busy, long destiny_millis_time) {
+    public boolean updateImformToDatabase( boolean busy, long destiny_millis_time, String usingUserId) {
         long destiny_millis_time_server = 0;//DB에서 불러온다
         boolean busy_server = false;//DB에서 불러온다
-        if(this.getDestiny_millis_time() != destiny_millis_time_server || this.isBusy() != busy_server){
+        String usingUserId_server = "update from server";
+        if(this.getDestiny_millis_time() != destiny_millis_time_server || this.isBusy() != busy_server || !this.getUsingUserId().equals(usingUserId_server)){
             //현재 destiny_millis_time destiny_millis_time_server와 다르다면 실패 ex) 업데이트 하려는데 DB에서 이미 정보가 바뀌었을때
             //따로 업데이트는 해줄 필요 없다. 주기적으로 쓰레드에서 업데이트를 해줄거기 때문에
             return false;
@@ -37,6 +40,9 @@ public class Washer {
         this.setDestiny_millis_time(destiny_millis_time);
         //**업데이트 필요!!  server에 busy를 업데이트
         this.setBusy(busy);
+        //**업데이트 필요!! server에 usingUserID를 업데이트
+        this.setUsingUserId(usingUserId);
+
         return true;
     }
 //    public boolean updateImformToDatabase(){
@@ -51,6 +57,14 @@ public class Washer {
     //=================================
     //========getter and setter========
     //=================================
+
+    public String getUsingUserId() {
+        return usingUserId;
+    }
+
+    public void setUsingUserId(String usingUserId) {
+        this.usingUserId = usingUserId;
+    }
 
     public void setButtonListener(View.OnClickListener listener){
         this.button.setOnClickListener(listener);
