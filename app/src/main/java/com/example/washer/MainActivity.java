@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         /*InputTime에서 세탁기 시간을 설정했을 경우*/
         int hour = intent.getIntExtra("hour", -1);
         int minute = intent.getIntExtra("minute", -1);
-        int washerId = intent.getIntExtra("washerId", -1);
+        final int washerId = intent.getIntExtra("washerId", -1);
         if (hour != -1 && minute != -1){
 //            for(int i = 0; i< washerNum; i++){
 //                Log.d(TAG, "busy check" + String.valueOf(i+1) + String.valueOf(washers[i].isBusy()));
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 //세탁기 목표 시간 설정
-                boolean success = washers[washerId-1].updateImformToDatabase(true, destiny_time_millis, usr_id);
+                boolean success = washers[washerId-1].updateImformToDatabase(true, destiny_time_millis, usr_id, false);
                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
                 Log.d(TAG, String.valueOf(washerId));
                 if (success) {
@@ -129,15 +129,28 @@ public class MainActivity extends AppCompatActivity {
                 //타이머 갱신
                 //Log.d("MainActivity", String.valueOf(System.currentTimeMillis()));
                 for(int i = 0; i<washerNum; i++){
+                    Log.d(TAG, "is wash done" + String.valueOf(i+1) + String.valueOf(washers[i].isWashDone()));
                     if (washers[i].isBusy()) {
                         Log.d(TAG, String.valueOf(i+1) + "is busy");
                         long left_time_sec = (washers[i].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
-                        int left_hour = (int) left_time_sec / 3600;
-                        int left_minute = (int) left_time_sec / 60 - left_hour * 60;
-                        int left_sec = (int) left_time_sec - left_hour * 3600 - left_minute * 60;
-                        String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
+                        if (left_time_sec < 0){
+
+                            washers[i].updateImformToDatabase(false, 0, null, true);
+                        }
+                        else{
+                            int left_hour = (int) left_time_sec / 3600;
+                            int left_minute = (int) left_time_sec / 60 - left_hour * 60;
+                            int left_sec = (int) left_time_sec - left_hour * 3600 - left_minute * 60;
+                            String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
+                            TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(i + 1), "id", getPackageName()));
+                            changed_washer_time.setText(left_time_str);
+                        }
+                    }
+                    if(washers[i].isWashDone()){
+                        //busy하지 않고 wash가 done이면
                         TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(i + 1), "id", getPackageName()));
-                        changed_washer_time.setText(left_time_str);
+                        changed_washer_time.setText("세탁완료");
+
                     }
                 }
 
