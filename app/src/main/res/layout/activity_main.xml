@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:text="생활관 3층"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
@@ -48,9 +48,9 @@
 
                 <Button
                     android:id="@+id/washer1"
-                    android:layout_width="140dp"
-                    android:layout_height="176dp"
-                    android:background="@drawable/washer" />
+                    android:layout_width="180dp"
+                    android:layout_height="130dp"
+                    android:background="@drawable/washer_icon1" />
 
                 <TextView
                     android:id="@+id/washerLeftTime1"
@@ -63,7 +63,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="50dp"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"></LinearLayout>
 
             <LinearLayout
@@ -73,9 +73,9 @@
 
                 <Button
                     android:id="@+id/washer2"
-                    android:layout_width="140dp"
-                    android:layout_height="176dp"
-                    android:background="@drawable/washer" />
+                    android:layout_width="180dp"
+                    android:layout_height="130dp"
+                    android:background="@drawable/washer_icon2" />
 
                 <TextView
                     android:id="@+id/washerLeftTime2"
@@ -108,9 +108,9 @@
 
                 <Button
                     android:id="@+id/washer3"
-                    android:layout_width="140dp"
-                    android:layout_height="176dp"
-                    android:background="@drawable/washer" />
+                    android:layout_width="180dp"
+                    android:layout_height="130dp"
+                    android:background="@drawable/washer_icon3" />
 
                 <TextView
                     android:id="@+id/washerLeftTime3"
@@ -123,7 +123,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="50dp"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"></LinearLayout>
 
             <LinearLayout
@@ -133,9 +133,9 @@
 
                 <Button
                     android:id="@+id/washer4"
-                    android:layout_width="140dp"
-                    android:layout_height="176dp"
-                    android:background="@drawable/washer" />
+                    android:layout_width="180dp"
+                    android:layout_height="130dp"
+                    android:background="@drawable/washer_icon4" />
 
                 <TextView
                     android:id="@+id/washerLeftTime4"

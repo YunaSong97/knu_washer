@@ -21,6 +21,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Loading화면 띠우고 다시 돌아오기.
+        //Intent intent = new Intent(this, Loading.class);
+        //startActivity(intent);
 
         et_id = findViewById(R.id.et_id);
         et_password = findViewById(R.id.et_password);

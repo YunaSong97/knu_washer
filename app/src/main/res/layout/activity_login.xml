@@ -41,7 +41,6 @@
             android:paddingLeft="20dp"
             android:hint="비밀번호"
             android:textStyle="bold"
-            android:inputType="textPassword"
             android:background="@drawable/edge2"
             android:textSize="14dp" />
 
