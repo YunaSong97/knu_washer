@@ -7,13 +7,15 @@ import android.widget.Button;
 public class Washer {
     private boolean busy = false;
     private int id;
+    private int dormId;
     private long destiny_millis_time = 0;
     private final Button button;
     private boolean washDone = false;
     private String usingUserId = "default";
 
-    public Washer(int id, Button button) {
+    public Washer(int dormId, int id, Button button) {
         this.id = id;
+        this.dormId = dormId;
         this.button = button;
 
     }
@@ -72,6 +74,14 @@ public class Washer {
     //=================================
     //========getter and setter========
     //=================================
+
+    public int getDormId() {
+        return dormId;
+    }
+
+    public void setDormId(int dormId) {
+        this.dormId = dormId;
+    }
 
     public String getUsingUserId() {
         return usingUserId;
