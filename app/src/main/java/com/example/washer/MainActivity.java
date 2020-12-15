@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     onclick_washer(v, washers[finalI].getId());
                 }
             });
-            boolean getImformSuccess = washers[i].getImformFromDatabase(washers[i].getId());
+            boolean getImformSuccess = washers[i].getImformFromDatabase();
             if(!getImformSuccess){
                 Toast.makeText(getApplicationContext(), "정보를 불러오는데 실패하였습니다. ", Toast.LENGTH_LONG).show();
             }
@@ -79,34 +79,39 @@ public class MainActivity extends AppCompatActivity {
         int minute = intent.getIntExtra("minute", -1);
         int washerId = intent.getIntExtra("washerId", -1);
         if (hour != -1 && minute != -1){
-            for(int i = 0; i< washerNum; i++){
-                Log.d(TAG, "busy check" + String.valueOf(i+1) + String.valueOf(washers[i].isBusy()));
-            }
+//            for(int i = 0; i< washerNum; i++){
+//                Log.d(TAG, "busy check" + String.valueOf(i+1) + String.valueOf(washers[i].isBusy()));
+//            }
             //Login Activity에서 넘어오는 것을 대비하여 체크해줘야한다
             //세탁기 정보가 설정됨
             int left_minute = hour * 60 + minute;
             long destiny_time_millis = System.currentTimeMillis() + left_minute * 60 *1000;
+            washers[washerId-1].getImformFromDatabase();
             if (washers[washerId-1].isBusy()){
                 //세탁기 이미 돌아가고 있는중
                 Toast.makeText(getApplicationContext(), "이미 다른 사용자가 사용중인 세탁기입니다.", Toast.LENGTH_LONG).show();
             }
             else {
                 //세탁기 목표 시간 설정
-                washers[washerId - 1].setDestiny_millis_time(destiny_time_millis);
+                boolean success = washers[washerId-1].updateImformToDatabase(true, destiny_time_millis);
                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
                 Log.d(TAG, String.valueOf(washerId));
-                washers[washerId - 1].setBusy(true);
-                if (hour != 0) {
-                    Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
-                            "번 세탁기에서 " + String.valueOf(hour) + "시간" + String.valueOf(minute) +
-                            " 분 실행", Toast.LENGTH_LONG).show();
+                if (success) {
+                    if (hour != 0) {
+                        Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
+                                "번 세탁기에서 " + String.valueOf(hour) + "시간" + String.valueOf(minute) +
+                                " 분 실행", Toast.LENGTH_LONG).show();
 
-                    changed_washer_time.setText("남은시간 : " + String.valueOf(hour) + ":" + String.valueOf(minute));
-                } else {
-                    Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
-                            "번 세탁기에서 " + String.valueOf(minute) +
-                            " 분 실행", Toast.LENGTH_LONG).show();
-                    changed_washer_time.setText("남은시간 : " + "0:" + String.valueOf(minute));
+                        changed_washer_time.setText("남은시간 : " + String.valueOf(hour) + ":" + String.valueOf(minute));
+                    } else {
+                        Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
+                                "번 세탁기에서 " + String.valueOf(minute) +
+                                " 분 실행", Toast.LENGTH_LONG).show();
+                        changed_washer_time.setText("남은시간 : " + "0:" + String.valueOf(minute));
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "업데이트 오류 : 누군가가 이미 사용중이거나 네트워크 오류", Toast.LENGTH_LONG).show();
                 }
             }
         }
