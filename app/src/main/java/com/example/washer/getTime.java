@@ -8,12 +8,12 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Destinytime extends StringRequest {
+public class getTime extends StringRequest {
     // 서버 URL 설정(PHP 파일 연동)
-    final static private String URL = "http://moapp.dothome.co.kr/GetTime.php";
+    final static private String URL = "http://moapp.dothome.co.kr/getDestinyTime.php";
     private Map<String, String> map;
 
-    public Destinytime(String destinyTime, Response.Listener<String> listener) {
+    public getTime(String destinyTime, Response.Listener<String> listener) {
         super(Request.Method.POST, URL, listener, null);
 
         map = new HashMap<>();
