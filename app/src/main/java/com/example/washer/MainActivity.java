@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
                     onclick_washer(v, washers[finalI].getId());
                 }
             });
+            boolean getImformSuccess = washers[i].getImformFromDatabase(washers[i].getId());
+            if(!getImformSuccess){
+                Toast.makeText(getApplicationContext(), "정보를 불러오는데 실패하였습니다. ", Toast.LENGTH_LONG).show();
+            }
         }
 
 
