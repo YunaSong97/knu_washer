@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     static final int washerNum = 4;
     static final int dormNum = 4;
 
+    int dormId = 1;
     Washer[] washers = new Washer[washerNum];
     TextView[] dormButton = new TextView[dormNum];
     String usr_id = "";
@@ -54,10 +55,12 @@ public class MainActivity extends AppCompatActivity {
 //            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
             dormButton[i].setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    dormId = finalI + 1;
                     Toast.makeText(getApplicationContext(), "dorm " + String.valueOf(finalI+1) + " 선택", Toast.LENGTH_SHORT).show();
 //                    setContentView(R.layout.activity_main);
                     DrawerLayout sideLayout = (DrawerLayout) findViewById(R.id.drawer_layout);//내가 지정한 id가 아님 그냥 drawer_layout가 기본인듯
-
+                    TextView textView = findViewById(R.id.usr_dorm);
+                    textView.setText("기숙사" + String.valueOf(dormId));
                     sideLayout.closeDrawers();
                 }
             });
