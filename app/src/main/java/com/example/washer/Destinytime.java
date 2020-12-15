@@ -13,12 +13,11 @@ public class Destinytime extends StringRequest {
     final static private String URL = "http://moapp.dothome.co.kr/GetTime.php";
     private Map<String, String> map;
 
-    public Destinytime(String usr_id, String usr_password, Response.Listener<String> listener) {
+    public Destinytime(String destinyTime, Response.Listener<String> listener) {
         super(Request.Method.POST, URL, listener, null);
 
         map = new HashMap<>();
-        map.put("usr_id", usr_id);
-        map.put("usr_password",usr_password);
+        map.put("destinyTime", destinyTime);
     }
 
     @Override
