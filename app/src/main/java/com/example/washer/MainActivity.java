@@ -40,7 +40,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
+        //Main Activity로 돌아오면 이게 작동돼서 new로 washer가 초기화된다.
+        //DB랑 연동해야함
+        for (int i = 0; i < washerNum; i++){
+            washers[i] = new Washer(i+1, (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(i+1), "id", getPackageName())));
+            final int finalI = i;//익명함수에서는 로컬변수와 함수파라미터에 접근 못하므로 final로 고쳐야한다
+            //참조 :  https://dreamaz.tistory.com/259
+            Log.d(TAG, "i is " + String.valueOf(i));
+//            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
+            washers[i].setButtonListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    onclick_washer(v, washers[finalI].getId());
+                }
+            });
+        }
 
 
         Intent intent = getIntent();
@@ -50,19 +63,7 @@ public class MainActivity extends AppCompatActivity {
             String usr_password = intent.getStringExtra("usr_password");
             Toast.makeText(getApplicationContext(), usr_id+"님, 환영합니다!", Toast.LENGTH_LONG).show();
 
-            //로그인 할때만 만든다
-            for (int i = 0; i < washerNum; i++){
-                washers[i] = new Washer(i+1, (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(i+1), "id", getPackageName())));
-                final int finalI = i;//익명함수에서는 로컬변수와 함수파라미터에 접근 못하므로 final로 고쳐야한다
-                //참조 :  https://dreamaz.tistory.com/259
-                Log.d(TAG, "i is " + String.valueOf(i));
-//            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
-                washers[i].setButtonListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        onclick_washer(v, washers[finalI].getId());
-                    }
-                });
-            }
+            
         }
 
 
