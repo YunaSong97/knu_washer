@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     static final int washerNum = 4;
 
     Washer[] washers = new Washer[washerNum];
+    String usr_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String usr_id = intent.getStringExtra("usr_id");
+        String usr_id_from_login = intent.getStringExtra("usr_id");
         //OOO님 환영합니다!
-        if(!TextUtils.isEmpty(usr_id)){
+        if(!TextUtils.isEmpty(usr_id_from_login)){
             String usr_password = intent.getStringExtra("usr_password");
-            Toast.makeText(getApplicationContext(), usr_id+"님, 환영합니다!", Toast.LENGTH_LONG).show();
-
+            Toast.makeText(getApplicationContext(), usr_id_from_login+"님, 환영합니다!", Toast.LENGTH_LONG).show();
+            usr_id = usr_id_from_login;
             
+        }
+        else{
+            Toast.makeText(getApplicationContext(), usr_id+"님, 재접속!", Toast.LENGTH_LONG).show();
         }
 
 
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 //세탁기 목표 시간 설정
-                boolean success = washers[washerId-1].updateImformToDatabase(true, destiny_time_millis);
+                boolean success = washers[washerId-1].updateImformToDatabase(true, destiny_time_millis, usr_id);
                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
                 Log.d(TAG, String.valueOf(washerId));
                 if (success) {
