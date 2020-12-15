@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         //Main Activity로 돌아오면 이게 작동돼서 new로 washer가 초기화된다.
         //DB랑 연동해야함
         for (int i = 0; i < washerNum; i++){
@@ -63,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String usr_id_from_login = intent.getStringExtra("usr_id");
+
+        //기숙사 이름 메인에 띄우기
+        String dorm_name = intent.getStringExtra("usr_dorm");
+        TextView usr_dorm = (TextView)findViewById(R.id.usr_dorm);
+        usr_dorm.setText(dorm_name);
+
         //OOO님 환영합니다!
         if(!TextUtils.isEmpty(usr_id_from_login)){
             String usr_password = intent.getStringExtra("usr_password");

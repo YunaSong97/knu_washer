@@ -14,9 +14,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <TextView
+            android:id="@+id/usr_dorm"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:text="생활관 3층"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:gravity="center"
