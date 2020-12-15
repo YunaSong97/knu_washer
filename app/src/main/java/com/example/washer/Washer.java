@@ -21,8 +21,8 @@ public class Washer {
         //**업데이트 필요!!  this.id를 통해 DB에서 데이터 받아온다
         boolean getImformSuccess = true;
         this.destiny_millis_time = 0;
-        this.setBusy(true);
-        this.usingUserId = "";
+        this.setBusy(false);
+        this.usingUserId = "default";
 
         return getImformSuccess;
     }
@@ -30,8 +30,9 @@ public class Washer {
     public boolean updateImformToDatabase( boolean busy, long destiny_millis_time, String usingUserId) {
         long destiny_millis_time_server = 0;//DB에서 불러온다
         boolean busy_server = false;//DB에서 불러온다
-        String usingUserId_server = "update from server";
-        if(this.getDestiny_millis_time() != destiny_millis_time_server || this.isBusy() != busy_server || !this.getUsingUserId().equals(usingUserId_server)){
+        String usingUserId_server = "default";
+        //if(this.getDestiny_millis_time() != destiny_millis_time_server || this.isBusy() != busy_server || !this.getUsingUserId().equals(usingUserId_server)){
+        if(this.getDestiny_millis_time() != destiny_millis_time_server || this.isBusy() != busy_server){
             //현재 destiny_millis_time destiny_millis_time_server와 다르다면 실패 ex) 업데이트 하려는데 DB에서 이미 정보가 바뀌었을때
             //따로 업데이트는 해줄 필요 없다. 주기적으로 쓰레드에서 업데이트를 해줄거기 때문에
             return false;
