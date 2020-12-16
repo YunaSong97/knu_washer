@@ -165,15 +165,15 @@ public class Washer implements Cloneable {
         }
     }
     public void setState(String state){
-        if (state == "busy"){
+        if (state.equals("busy")){
             busy = true;
             washDone = false;
         }
-        else if(state == "done"){
+        else if(state.equals("done")){
             busy = false;
             washDone = true;
         }
-        else if(state == "able"){
+        else if(state.equals("able")){
             busy = false;
             washDone = false;
         }

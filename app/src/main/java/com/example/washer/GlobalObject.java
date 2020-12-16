@@ -77,12 +77,10 @@ public class GlobalObject extends Application {
             public void onResponse(String response) {
                 try {
                     Log.d(TAG,String.valueOf(response));
-                    JSONObject jsonObject = new JSONObject(response);
-                    boolean success = jsonObject.getBoolean("success");
-                    if(success){ //가져오기에 성공한 경우
+                        JSONArray jsonArray = new JSONArray(response);
 
 
-                        JSONArray jsonArray = new JSONArray(jsonObject.getString("data"));
+//                        JSONArray jsonArray = new JSONArray(jsonObject.getString("data"));
                         for(int i=0; i<jsonArray.length(); i++){
                             JSONObject one_jsonObject = jsonArray.getJSONObject(i);
                             washer_id[i] = one_jsonObject.getString("washer_id")+i;
@@ -91,15 +89,14 @@ public class GlobalObject extends Application {
                             destinyTime[i] = one_jsonObject.getString("destinyTime")+i;
                         }
                         for (int i = 0; i < dormNum * washerNum; i++){
-                            Log.d(TAG, washer_id[i]);
+                            Log.d(TAG, washer_state[i].substring(0,4));
                             int d = Integer.parseInt(washer_id[i].substring(1,2));
                             int w = Integer.parseInt(washer_id[i].substring(3,4));
-                            washers[d-1][w-1].setState(washer_state[i]);
+                            washers[d-1][w-1].setState(washer_state[i].substring(0,4));
                             washers[d-1][w-1].setDestiny_millis_time(Long.parseLong(destinyTime[i]));
 
 
                         }
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
