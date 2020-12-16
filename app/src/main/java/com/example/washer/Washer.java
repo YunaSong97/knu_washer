@@ -109,7 +109,7 @@ public class Washer implements Cloneable {
         return destiny_millis_time;
     }
 
-    private void setDestiny_millis_time(long destiny_millis_time) {
+    public void setDestiny_millis_time(long destiny_millis_time) {
         this.destiny_millis_time = destiny_millis_time;
     }
 

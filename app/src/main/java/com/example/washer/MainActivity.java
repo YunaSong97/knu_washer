@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 //    Washer[][] washers = new Washer[dormNum][washerNum];
     TextView[] dormButton = new TextView[GlobalObject.dormNum];
     String usr_id = "";
+    GlobalObject g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +67,13 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < GlobalObject.dormNum; i++){
                 for (int j = 0; j<GlobalObject.washerNum;j++){
                     GlobalObject.washers[i][j] = new Washer(i + 1, j+1);
-                    boolean getImformSuccess = GlobalObject.washers[i][j].getImformFromDatabase();
-                    if (!getImformSuccess) {
-                        Toast.makeText(getApplicationContext(), "정보를 불러오는데 실패하였습니다. ", Toast.LENGTH_LONG).show();
-                    }
+//                    boolean getImformSuccess = GlobalObject.washers[i][j].getImformFromDatabase();
+//                    if (!getImformSuccess) {
+//                        Toast.makeText(getApplicationContext(), "정보를 불러오는데 실패하였습니다. ", Toast.LENGTH_LONG).show();
+//                    }
                 }
+                g = new GlobalObject();
+                g.updateImformFromDatabase();
             }
 
         }
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         //기숙사 이름 설정
         TextView dormText = findViewById(R.id.usr_dorm);
+
         dormText.setText(GlobalObject.dorm_name + String.valueOf(currentDormId));
         
 
@@ -133,7 +137,9 @@ public class MainActivity extends AppCompatActivity {
             //세탁기 정보가 설정됨
             int left_minute = hour * 60 + minute;
             long destiny_time_millis = System.currentTimeMillis() + left_minute * 60 *1000;
-            GlobalObject.washers[currentDormId -1][washerId-1].getImformFromDatabase();
+//            GlobalObject.washers[currentDormId -1][washerId-1].getImformFromDatabase();
+            g = new GlobalObject();
+            g.updateImformFromDatabase();
             if (GlobalObject.washers[currentDormId -1][washerId-1].isBusy()){
                 //세탁기 이미 돌아가고 있는중
                 Toast.makeText(getApplicationContext(), "이미 다른 사용자가 사용중인 세탁기입니다.", Toast.LENGTH_LONG).show();
