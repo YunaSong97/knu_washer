@@ -114,30 +114,30 @@ public class InputTime extends AppCompatActivity {
                     main_act.putExtra("minute",left_minute); /*송신*/
                     main_act.putExtra("washerId", washerId); /*송신*/
                     main_act.putExtra("dormId", dormId); /*송신*/
-
-                    Response.Listener<String> responseListener = new Response.Listener<String>(){
-                        @Override
-                        public void onResponse(String response){
-                            try{
-                                JSONObject jsonObject = new JSONObject(response);
-                                boolean success = jsonObject.getBoolean("success");
-                                if(success){
-
-                                    // Intent intent = new Intent(InputTime.this, MainActivity.class);
-                                    // startActivity(intent);
-                                }
-                                else{
-
-                                    return;
-                                }
-                            } catch(JSONException e){
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-                    setTimeRequest settime = new setTimeRequest("d"+Integer.toString(dormId)+"w"+Integer.toString(washerId), Integer.toString(total_minute), "busy", responseListener);
-                    RequestQueue queue = Volley.newRequestQueue(InputTime.this);
-                    queue.add(settime);
+//
+//                    Response.Listener<String> responseListener = new Response.Listener<String>(){
+//                        @Override
+//                        public void onResponse(String response){
+//                            try{
+//                                JSONObject jsonObject = new JSONObject(response);
+//                                boolean success = jsonObject.getBoolean("success");
+//                                if(success){
+//
+//                                    // Intent intent = new Intent(InputTime.this, MainActivity.class);
+//                                    // startActivity(intent);
+//                                }
+//                                else{
+//
+//                                    return;
+//                                }
+//                            } catch(JSONException e){
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    };
+//                    setTimeRequest settime = new setTimeRequest("d"+Integer.toString(dormId)+"w"+Integer.toString(washerId), Integer.toString(total_minute), "busy", responseListener);
+//                    RequestQueue queue = Volley.newRequestQueue(InputTime.this);
+//                    queue.add(settime);
 
                     startActivity(main_act);
                 }

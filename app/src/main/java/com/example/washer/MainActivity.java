@@ -20,7 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -142,19 +146,43 @@ public class MainActivity extends AppCompatActivity {
             int left_minute = hour * 60 + minute;
             long destiny_time_millis = System.currentTimeMillis() + left_minute * 60 *1000;
 //            GlobalObject.washers[currentDormId -1][washerId-1].getImformFromDatabase();
-            g = new GlobalObject();
-            RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-            g.updateImformFromDatabase(queue);
+//            g = new GlobalObject();
+//            RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+//            g.updateImformFromDatabase(queue);
             if (GlobalObject.washers[currentDormId -1][washerId-1].isBusy()){
                 //세탁기 이미 돌아가고 있는중
                 Toast.makeText(getApplicationContext(), "이미 다른 사용자가 사용중인 세탁기입니다.", Toast.LENGTH_LONG).show();
             }
             else {
                 //세탁기 목표 시간 설정
-                boolean success = GlobalObject.washers[currentDormId -1][washerId-1].updateImformToDatabase(true, destiny_time_millis, GlobalObject.usr_id, false);
+                {
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                boolean success = jsonObject.getBoolean("success");
+                                if (success) {
+                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+                                    // Intent intent = new Intent(InputTime.this, MainActivity.class);
+                                    // startActivity(intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    setTimeRequest settime = new setTimeRequest("d" + Integer.toString(currentDormId) + "w" + Integer.toString(washerId), Long.toString(destiny_time_millis), "busy", responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                    queue.add(settime);
+                }
+
+//                boolean success = GlobalObject.washers[currentDormId -1][washerId-1].updateImformToDatabase(true, destiny_time_millis, GlobalObject.usr_id, false);
                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
                 Log.d(TAG, String.valueOf(washerId));
-                if (success) {
                     if (hour != 0) {
                         Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
                                 "번 세탁기에서 " + String.valueOf(hour) + "시간" + String.valueOf(minute) +
@@ -167,10 +195,6 @@ public class MainActivity extends AppCompatActivity {
                                 " 분 실행", Toast.LENGTH_LONG).show();
                         changed_washer_time.setText("남은시간 : " + "0:" + String.valueOf(minute));
                     }
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "업데이트 오류 : 누군가가 이미 사용중이거나 네트워크 오류", Toast.LENGTH_LONG).show();
-                }
             }
         }
         else{
@@ -195,8 +219,31 @@ public class MainActivity extends AppCompatActivity {
 
                             long left_time_sec = (GlobalObject.washers[i][j].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
                             if (left_time_sec < 0) {
-
-                                GlobalObject.washers[i][j].updateImformToDatabase(false, 0, null, true);
+                                //사용완료 전송
+                                {
+                                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response);
+                                                boolean success = jsonObject.getBoolean("success");
+                                                if (success) {
+                                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+                                                    // Intent intent = new Intent(InputTime.this, MainActivity.class);
+                                                    // startActivity(intent);
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+                                                    return;
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+                                    setTimeRequest settime = new setTimeRequest("d" + Integer.toString(currentDormId) + "w" + Integer.toString(washerId), Long.toString(0), "done", responseListener);
+                                    RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
+                                    queue_.add(settime);
+                                }
                             }
                             else {
                                 if(i == currentDormId -1) {
