@@ -1,23 +1,42 @@
 package com.example.washer;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class Washer {
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Washer implements Cloneable {
     private boolean busy = false;
     private int id;
     private int dormId;
     private long destiny_millis_time = 0;
-    private final Button button;
+    private Button button;
     private boolean washDone = false;
     private String usingUserId = "default";
+    private static final String TAG = "Washer";
 
-    public Washer(int dormId, int id, Button button) {
+    public Washer(int dormId, int id) {
         this.id = id;
         this.dormId = dormId;
-        this.button = button;
+//        this.button = button;
 
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        //CloneNotSupportedException 처리
+        return super.clone();
     }
 
     public boolean getImformFromDatabase(){
@@ -47,9 +66,12 @@ public class Washer {
 //        }
         //**업데이트 필요!!  server에 destiny_millis_time 업데이트
         this.setDestiny_millis_time(destiny_millis_time);
+        //setTime 추가
+
+
         //**업데이트 필요!!  server에 busy를 업데이트
         this.setBusy(busy);
-        
+
         //userID를 바꿀일이 없으면 null을 넣으면 됨
         if(!TextUtils.isEmpty(usingUserId)){
             //**업데이트 필요!! server에 usingUserID를 업데이트
@@ -99,7 +121,7 @@ public class Washer {
         return destiny_millis_time;
     }
 
-    private void setDestiny_millis_time(long destiny_millis_time) {
+    public void setDestiny_millis_time(long destiny_millis_time) {
         this.destiny_millis_time = destiny_millis_time;
     }
 
@@ -125,5 +147,38 @@ public class Washer {
 
     public void setWashDone(boolean washDone) {
         this.washDone = washDone;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+    }
+
+    public String getState(){
+        if (busy){
+            return "busy";
+        }
+        else if(washDone){
+            return "done";
+        }
+        else{
+            return "able";
+        }
+    }
+    public void setState(String state){
+        if (state.equals("busy")){
+            busy = true;
+            washDone = false;
+        }
+        else if(state.equals("done")){
+            busy = false;
+            washDone = true;
+        }
+        else if(state.equals("able")){
+            busy = false;
+            washDone = false;
+        }
+        else{
+            Log.e(TAG, "setState error! 불가능한 state입니다.");
+        }
     }
 }
