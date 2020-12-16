@@ -121,7 +121,7 @@ public class Washer implements Cloneable {
         return destiny_millis_time;
     }
 
-    private void setDestiny_millis_time(long destiny_millis_time) {
+    public void setDestiny_millis_time(long destiny_millis_time) {
         this.destiny_millis_time = destiny_millis_time;
     }
 
@@ -165,15 +165,15 @@ public class Washer implements Cloneable {
         }
     }
     public void setState(String state){
-        if (state == "busy"){
+        if (state.equals("busy")){
             busy = true;
             washDone = false;
         }
-        else if(state == "done"){
+        else if(state.equals("done")){
             busy = false;
             washDone = true;
         }
-        else if(state == "able"){
+        else if(state.equals("able")){
             busy = false;
             washDone = false;
         }
