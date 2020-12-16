@@ -85,8 +85,8 @@ public class GlobalObject extends Application {
                             JSONObject one_jsonObject = jsonArray.getJSONObject(i);
                             washer_id[i] = one_jsonObject.getString("washer_id")+i;
                             Log.d(TAG, one_jsonObject.getString("washer_id")+i);
-                            washer_state[i] = one_jsonObject.getString("washer_state")+i;
-                            destinyTime[i] = one_jsonObject.getString("destinyTime")+i;
+                            washer_state[i] = one_jsonObject.getString("washer_state");
+                            destinyTime[i] = one_jsonObject.getString("destinyTime");
                         }
                         for (int i = 0; i < dormNum * washerNum; i++){
                             Log.d(TAG, washer_state[i].substring(0,4));
