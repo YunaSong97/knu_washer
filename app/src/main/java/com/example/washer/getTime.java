@@ -12,11 +12,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-<<<<<<< HEAD
 public class getTime {
-=======
-public class getTime{
->>>>>>> b465db41d1be05dd0e8911c292e6614f95d3058c
     private void receiveArray(String dataObject){
         String[] washer_id = new String[16];
         String[] destinyTime = new String[16];
