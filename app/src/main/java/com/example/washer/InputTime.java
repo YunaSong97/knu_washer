@@ -35,6 +35,7 @@ public class InputTime extends AppCompatActivity {
     SeekBar seekBar;
     int total_minute;
     int washerId;
+    int dormId;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,8 @@ public class InputTime extends AppCompatActivity {
 
         Intent mainIntent = getIntent();    //intent 수신
         washerId = Objects.requireNonNull(mainIntent.getExtras()).getInt("washerId");
-        washerIdTextView.setText("세탁기 " + Integer.toString(washerId));
+        dormId = Objects.requireNonNull(mainIntent.getExtras()).getInt("dormId");
+        washerIdTextView.setText(Integer.toString(dormId) + "기숙사 세탁기 " + Integer.toString(washerId));
 
         hour_edit_text = (EditText)findViewById(R.id.hour_text);
         minute_edit_text = (EditText)findViewById(R.id.minute_text);
@@ -107,6 +109,8 @@ public class InputTime extends AppCompatActivity {
                     main_act.putExtra("hour",left_hour); /*송신*/
                     main_act.putExtra("minute",left_minute); /*송신*/
                     main_act.putExtra("washerId", washerId); /*송신*/
+                    main_act.putExtra("dormId", dormId); /*송신*/
+
                     startActivity(main_act);
                 }
 
