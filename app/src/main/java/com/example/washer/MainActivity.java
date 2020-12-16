@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
             //LoginActivity에서 넘어옴
 
         }
+
         TimerTask validate_washer_time = new TimerTask() {
             @Override
             public void run() {
@@ -176,6 +177,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "is wash done" + String.valueOf(i + 1) + String.valueOf(GlobalObject.washers[i][j].isWashDone()));
                         if (GlobalObject.washers[i][j].isBusy()) {
                             Log.d(TAG, String.valueOf(i + 1) + "is busy");
+
+
                             long left_time_sec = (GlobalObject.washers[i][j].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
                             if (left_time_sec < 0) {
 
@@ -196,12 +199,16 @@ public class MainActivity extends AppCompatActivity {
                             //busy하지 않고 wash가 done이면
                             if(i == currentDormId -1) {
                                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                //Button btn = (Button)findViewById(R.id.OK_bt);
+                                //btn.setEnabled(true);
                                 changed_washer_time.setText("세탁완료");
                             }
                         }
                         else{
                             if(i == currentDormId -1){
                                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                //Button btn = (Button)findViewById(R.id.OK_bt);
+                                //btn.setEnabled(true);
                                 changed_washer_time.setText("사용가능");
                             }
                         }

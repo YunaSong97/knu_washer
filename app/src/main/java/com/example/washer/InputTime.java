@@ -122,12 +122,12 @@ public class InputTime extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response);
                                 boolean success = jsonObject.getBoolean("success");
                                 if(success){
-                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+
                                     // Intent intent = new Intent(InputTime.this, MainActivity.class);
                                     // startActivity(intent);
                                 }
                                 else{
-                                    Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+
                                     return;
                                 }
                             } catch(JSONException e){
