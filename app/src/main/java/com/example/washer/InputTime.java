@@ -16,6 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 public class InputTime extends AppCompatActivity {
@@ -105,8 +110,23 @@ public class InputTime extends AppCompatActivity {
                     startActivity(main_act);
                 }
 
+                /*Response.Listener<String> responseListener = new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            //boolean success = jsonObject.getBoolean("success");
+                        } catch(JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }*/
+                String time =
+                setTime setTime = new setTime(washerId, total_time)
+
             }
         });
+
 
 
 //        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
