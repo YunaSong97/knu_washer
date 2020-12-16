@@ -16,7 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,18 +117,20 @@ public class InputTime extends AppCompatActivity {
                     startActivity(main_act);
                 }
 
-                /*Response.Listener<String> responseListener = new Response.Listener<String>(){
+                Response.Listener<String> responseListener = new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
                         try{
                             JSONObject jsonObject = new JSONObject(response);
-                            //boolean success = jsonObject.getBoolean("success");
+                            boolean success = jsonObject.getBoolean("success");
                         } catch(JSONException e){
                             e.printStackTrace();
                         }
                     }
-                }*/
-
+                };
+                setTimeRequest settime = new setTimeRequest(Integer.toString(washerId), Integer.toString(total_minute), "busy", responseListener);
+                RequestQueue queue = Volley.newRequestQueue(InputTime.this);
+                queue.add(settime);
             }
         });
 
