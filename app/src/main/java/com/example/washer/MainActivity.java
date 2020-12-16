@@ -224,11 +224,6 @@ public class MainActivity extends AppCompatActivity {
         };
         Timer timer = new Timer();
         timer.schedule(validate_washer_time, 0, 1000);
-        /*Timer[] timer = new Timer[washerNum];
-        for(int i=0;i<4;i++){
-            timer[i].schedule(validate_washer_time, 0, 1000);
-        }*/
-
 
     }
     public void onclick_washer(View view, int dormId, int washerId) {

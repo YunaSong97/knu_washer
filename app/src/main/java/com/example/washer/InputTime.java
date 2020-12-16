@@ -125,8 +125,6 @@ public class InputTime extends AppCompatActivity {
                         }
                     }
                 }*/
-                String time =
-                setTime setTime = new setTime(washerId, total_time)
 
             }
         });
