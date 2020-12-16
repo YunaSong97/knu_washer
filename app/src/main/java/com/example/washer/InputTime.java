@@ -135,7 +135,7 @@ public class InputTime extends AppCompatActivity {
                             }
                         }
                     };
-                    setTimeRequest settime = new setTimeRequest(Integer.toString(washerId), Integer.toString(total_minute), "busy", responseListener);
+                    setTimeRequest settime = new setTimeRequest("d"+Integer.toString(dormId)+"w"+Integer.toString(washerId), Integer.toString(total_minute), "busy", responseListener);
                     RequestQueue queue = Volley.newRequestQueue(InputTime.this);
                     queue.add(settime);
 
