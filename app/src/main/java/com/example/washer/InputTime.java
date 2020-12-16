@@ -16,7 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -106,26 +108,39 @@ public class InputTime extends AppCompatActivity {
                     return;
                 }
                 else{
+
                     Intent main_act = new Intent( InputTime.this, MainActivity.class);
                     main_act.putExtra("hour",left_hour); /*송신*/
                     main_act.putExtra("minute",left_minute); /*송신*/
                     main_act.putExtra("washerId", washerId); /*송신*/
                     main_act.putExtra("dormId", dormId); /*송신*/
 
+                    Response.Listener<String> responseListener = new Response.Listener<String>(){
+                        @Override
+                        public void onResponse(String response){
+                            try{
+                                JSONObject jsonObject = new JSONObject(response);
+                                boolean success = jsonObject.getBoolean("success");
+                                if(success){
+                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+                                    // Intent intent = new Intent(InputTime.this, MainActivity.class);
+                                    // startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            } catch(JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    setTimeRequest settime = new setTimeRequest("d"+Integer.toString(dormId)+"w"+Integer.toString(washerId), Integer.toString(total_minute), "busy", responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(InputTime.this);
+                    queue.add(settime);
+
                     startActivity(main_act);
                 }
-
-                /*Response.Listener<String> responseListener = new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        try{
-                            JSONObject jsonObject = new JSONObject(response);
-                            //boolean success = jsonObject.getBoolean("success");
-                        } catch(JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }*/
 
             }
         });

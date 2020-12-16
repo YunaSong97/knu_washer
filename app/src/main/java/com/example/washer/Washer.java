@@ -1,9 +1,20 @@
 package com.example.washer;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Washer implements Cloneable {
     private boolean busy = false;
@@ -57,9 +68,10 @@ public class Washer implements Cloneable {
         this.setDestiny_millis_time(destiny_millis_time);
         //setTime 추가
 
+
         //**업데이트 필요!!  server에 busy를 업데이트
         this.setBusy(busy);
-        
+
         //userID를 바꿀일이 없으면 null을 넣으면 됨
         if(!TextUtils.isEmpty(usingUserId)){
             //**업데이트 필요!! server에 usingUserID를 업데이트
