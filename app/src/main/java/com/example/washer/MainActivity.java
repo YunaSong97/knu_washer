@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -202,11 +205,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        TimerTask validate_washer_time = new TimerTask() {
-            @Override
-            public void run() {
+        final Handler handler = new Handler(){
+            @SuppressLint("HandlerLeak")
+            public void handleMessage(Message msg){
+                // 원래 하려던 동작 (UI변경 작업 등)
                 //타이머 갱신
-                //Log.d("MainActivity", String.valueOf(System.currentTimeMillis()));
+                Log.d(TAG, String.valueOf(System.currentTimeMillis()));
+
+
                 g = new GlobalObject();
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
                 g.updateImformFromDatabase(queue);
@@ -218,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                             long left_time_sec = (GlobalObject.washers[i][j].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
+                            Log.d(TAG, "현재 : " + String.valueOf(System.currentTimeMillis()) + "  destiny : " + GlobalObject.washers[i][j].getDestiny_millis_time() + "남은 sec : " + left_time_sec);
                             if (left_time_sec < 0) {
                                 //사용완료 전송
                                 {
@@ -240,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     };
-                                    setTimeRequest settime = new setTimeRequest("d" + Integer.toString(currentDormId) + "w" + Integer.toString(washerId), Long.toString(0), "done", responseListener);
+                                    setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(0), "done", responseListener);
                                     RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
                                     queue_.add(settime);
                                 }
@@ -276,11 +283,20 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }
+            }
+        };
+
+        TimerTask validate_washer_time = new TimerTask() {
+            @Override
+            public void run() {
+                Log.d(TAG,"timer run");
+                Message msg = handler.obtainMessage();
+                handler.sendMessage(msg);
 
             }
         };
         Timer timer = new Timer();
-        timer.schedule(validate_washer_time, 0, 1000);
+        timer.schedule(validate_washer_time, 0, 5000);
 
     }
     public void onclick_washer(View view, int dormId, int washerId) {
