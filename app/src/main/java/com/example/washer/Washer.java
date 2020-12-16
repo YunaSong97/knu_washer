@@ -1,23 +1,31 @@
 package com.example.washer;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class Washer {
+public class Washer implements Cloneable {
     private boolean busy = false;
     private int id;
     private int dormId;
     private long destiny_millis_time = 0;
-    private final Button button;
+    private Button button;
     private boolean washDone = false;
     private String usingUserId = "default";
+    private static final String TAG = "Washer";
 
-    public Washer(int dormId, int id, Button button) {
+    public Washer(int dormId, int id) {
         this.id = id;
         this.dormId = dormId;
-        this.button = button;
+//        this.button = button;
 
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        //CloneNotSupportedException 처리
+        return super.clone();
     }
 
     public boolean getImformFromDatabase(){
@@ -47,6 +55,8 @@ public class Washer {
 //        }
         //**업데이트 필요!!  server에 destiny_millis_time 업데이트
         this.setDestiny_millis_time(destiny_millis_time);
+        //setTime 추가
+
         //**업데이트 필요!!  server에 busy를 업데이트
         this.setBusy(busy);
         
@@ -125,5 +135,38 @@ public class Washer {
 
     public void setWashDone(boolean washDone) {
         this.washDone = washDone;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+    }
+
+    public String getState(){
+        if (busy){
+            return "busy";
+        }
+        else if(washDone){
+            return "done";
+        }
+        else{
+            return "able";
+        }
+    }
+    public void setState(String state){
+        if (state == "busy"){
+            busy = true;
+            washDone = false;
+        }
+        else if(state == "done"){
+            busy = false;
+            washDone = true;
+        }
+        else if(state == "able"){
+            busy = false;
+            washDone = false;
+        }
+        else{
+            Log.e(TAG, "setState error! 불가능한 state입니다.");
+        }
     }
 }

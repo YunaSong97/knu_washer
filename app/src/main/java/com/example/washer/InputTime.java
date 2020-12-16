@@ -16,6 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 public class InputTime extends AppCompatActivity {
@@ -35,6 +40,7 @@ public class InputTime extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_time);
+        final GlobalObject globalObject = (GlobalObject) getApplicationContext();
         //ActionBar ab = getSupportActionBar() ;
         //ab.setTitle("시간 입력");
         //ab.setDisplayHomeAsUpEnabled(true);
@@ -44,7 +50,7 @@ public class InputTime extends AppCompatActivity {
         Intent mainIntent = getIntent();    //intent 수신
         washerId = Objects.requireNonNull(mainIntent.getExtras()).getInt("washerId");
         dormId = Objects.requireNonNull(mainIntent.getExtras()).getInt("dormId");
-        washerIdTextView.setText(Integer.toString(dormId) + "기숙사 세탁기 " + Integer.toString(washerId));
+        washerIdTextView.setText(globalObject.dorm_name + Integer.toString(dormId) + "층 " + Integer.toString(washerId) + "번 세탁기 ");
 
         hour_edit_text = (EditText)findViewById(R.id.hour_text);
         minute_edit_text = (EditText)findViewById(R.id.minute_text);
@@ -109,8 +115,21 @@ public class InputTime extends AppCompatActivity {
                     startActivity(main_act);
                 }
 
+                /*Response.Listener<String> responseListener = new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            //boolean success = jsonObject.getBoolean("success");
+                        } catch(JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }*/
+
             }
         });
+
 
 
 //        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
