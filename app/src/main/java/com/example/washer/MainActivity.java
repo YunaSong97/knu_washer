@@ -1,15 +1,18 @@
 package com.example.washer;
 
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -238,6 +241,24 @@ public class MainActivity extends AppCompatActivity {
         Resources res = ctx.getResources();
         //name엔 뭘 넣어야 하는거지
         return res.getIdentifier("", "id", ctx.getPackageName());
+    }
+
+    @Override
+    public void onBackPressed(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("알림");
+        builder.setMessage("종료하시겠습니까?");
+        builder.setNegativeButton("취소",null);
+        builder.setPositiveButton("종료", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                moveTaskToBack(true);                  // 태스크를 백그라운드로 이동
+                finishAndRemoveTask();                  // 액티비티 종료 + 태스크 리스트에서 지우기
+                android.os.Process.killProcess(android.os.Process.myPid());   // 앱 프로세스 종료
+            }
+        });
+        builder.show();
     }
 
     //git push test
