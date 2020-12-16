@@ -3,6 +3,8 @@ package com.example.washer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -29,36 +31,21 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
+    private View header;
+
     Button washerBtn1,washerBtn2,washerBtn3,washerBtn4;
     static final int washerNum = 4;
+    static final int dormNum = 4;
 
-    Washer[] washers = new Washer[washerNum];
+    int dormId = 1;
+    Washer[][] washers = new Washer[dormNum][washerNum];
+    TextView[] dormButton = new TextView[dormNum];
     String usr_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Main Activity로 돌아오면 이게 작동돼서 new로 washer가 초기화된다.
-        //DB랑 연동해야함
-        for (int i = 0; i < washerNum; i++){
-            washers[i] = new Washer(i+1, (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(i+1), "id", getPackageName())));
-            final int finalI = i;//익명함수에서는 로컬변수와 함수파라미터에 접근 못하므로 final로 고쳐야한다
-            //참조 :  https://dreamaz.tistory.com/259
-            Log.d(TAG, "i is " + String.valueOf(i));
-//            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
-            washers[i].setButtonListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    onclick_washer(v, washers[finalI].getId());
-                }
-            });
-            boolean getImformSuccess = washers[i].getImformFromDatabase();
-            if(!getImformSuccess){
-                Toast.makeText(getApplicationContext(), "정보를 불러오는데 실패하였습니다. ", Toast.LENGTH_LONG).show();
-            }
-        }
-
 
         Intent intent = getIntent();
         String usr_id_from_login = intent.getStringExtra("usr_id");
@@ -73,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             String usr_password = intent.getStringExtra("usr_password");
             Toast.makeText(getApplicationContext(), usr_id_from_login+"님, 환영합니다!", Toast.LENGTH_LONG).show();
             usr_id = usr_id_from_login;
-            
+
         }
         else{
             Toast.makeText(getApplicationContext(), usr_id+"님, 재접속!", Toast.LENGTH_LONG).show();
@@ -82,11 +69,70 @@ public class MainActivity extends AppCompatActivity {
 
 
         /*intent에서 안넘어온 값을 get할시에 int -> default값, String -> null*/
-        
+
         /*InputTime에서 세탁기 시간을 설정했을 경우*/
         int hour = intent.getIntExtra("hour", -1);
         int minute = intent.getIntExtra("minute", -1);
         final int washerId = intent.getIntExtra("washerId", -1);
+        dormId = intent.getIntExtra("dormId", 1);//1번을 default로 해야함. -1같은걸로 하면 팅김
+        TextView textView = findViewById(R.id.usr_dorm);
+        textView.setText("기숙사" + String.valueOf(dormId));
+
+        for (int i = 0; i < washerNum; i++){
+            dormButton[i] = (TextView) findViewById(getResources().getIdentifier("dorm" + String.valueOf(i+1), "id", getPackageName()));
+            final int finalI = i;//익명함수에서는 로컬변수와 함수파라미터에 접근 못하므로 final로 고쳐야한다
+            //참조 :  https://dreamaz.tistory.com/259
+            Log.d(TAG, "i is " + String.valueOf(i));
+//            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
+            dormButton[i].setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    dormId = finalI + 1;
+                    Toast.makeText(getApplicationContext(), "dorm " + String.valueOf(finalI+1) + " 선택", Toast.LENGTH_SHORT).show();
+//                    setContentView(R.layout.activity_main);
+                    DrawerLayout sideLayout = (DrawerLayout) findViewById(R.id.drawer_layout);//내가 지정한 id가 아님 그냥 drawer_layout가 기본인듯
+                    TextView textView = findViewById(R.id.usr_dorm);
+                    textView.setText("기숙사" + String.valueOf(dormId));
+                    sideLayout.closeDrawers();
+                }
+            });
+        }
+        //header안해도 되는데?
+//        header = getLayoutInflater().inflate(R.layout.side_navi_main, null, false);
+//        TextView textView = findViewById(R.id.dorm1);
+//        textView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "dorm 1 선택", Toast.LENGTH_LONG).show();
+////                DrawerLayout drawer = findViewById(R.id.drawerView);
+////                drawer.closeDrawer(GravityCompat.START);
+//                setContentView(R.layout.activity_main);
+//            }
+//        });
+
+        //Main Activity로 돌아오면 이게 작동돼서 new로 washer가 초기화된다.
+        //DB랑 연동해야함
+        for (int i = 0; i < dormNum; i++){
+            for(int j = 0; j<washerNum;j++ ) {
+                washers[i][j] = new Washer(i + 1, j+1, (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName())));
+                final int finalI = i;//익명함수에서는 로컬변수와 함수파라미터에 접근 못하므로 final로 고쳐야한다
+                //참조 :  https://dreamaz.tistory.com/259
+                Log.d(TAG, "i is " + String.valueOf(i));
+//            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_main, container, false);
+                final int finalJ = j;
+                washers[i][j].setButtonListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        onclick_washer(v, dormId, washers[finalI][finalJ].getId());
+                    }
+                });
+                boolean getImformSuccess = washers[i][j].getImformFromDatabase();
+                if (!getImformSuccess) {
+                    Toast.makeText(getApplicationContext(), "정보를 불러오는데 실패하였습니다. ", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+
+
         if (hour != -1 && minute != -1){
 //            for(int i = 0; i< washerNum; i++){
 //                Log.d(TAG, "busy check" + String.valueOf(i+1) + String.valueOf(washers[i].isBusy()));
@@ -95,14 +141,14 @@ public class MainActivity extends AppCompatActivity {
             //세탁기 정보가 설정됨
             int left_minute = hour * 60 + minute;
             long destiny_time_millis = System.currentTimeMillis() + left_minute * 60 *1000;
-            washers[washerId-1].getImformFromDatabase();
-            if (washers[washerId-1].isBusy()){
+            washers[dormId-1][washerId-1].getImformFromDatabase();
+            if (washers[dormId-1][washerId-1].isBusy()){
                 //세탁기 이미 돌아가고 있는중
                 Toast.makeText(getApplicationContext(), "이미 다른 사용자가 사용중인 세탁기입니다.", Toast.LENGTH_LONG).show();
             }
             else {
                 //세탁기 목표 시간 설정
-                boolean success = washers[washerId-1].updateImformToDatabase(true, destiny_time_millis, usr_id, false);
+                boolean success = washers[dormId-1][washerId-1].updateImformToDatabase(true, destiny_time_millis, usr_id, false);
                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
                 Log.d(TAG, String.valueOf(washerId));
                 if (success) {
@@ -133,28 +179,40 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 //타이머 갱신
                 //Log.d("MainActivity", String.valueOf(System.currentTimeMillis()));
-                for(int i = 0; i<washerNum; i++){
-                    Log.d(TAG, "is wash done" + String.valueOf(i+1) + String.valueOf(washers[i].isWashDone()));
-                    if (washers[i].isBusy()) {
-                        Log.d(TAG, String.valueOf(i+1) + "is busy");
-                        long left_time_sec = (washers[i].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
-                        if (left_time_sec < 0){
+                for(int i = 0; i<dormNum; i++) {
+                    for (int j = 0; j < washerNum; j++) {
+                        Log.d(TAG, "is wash done" + String.valueOf(i + 1) + String.valueOf(washers[i][j].isWashDone()));
+                        if (washers[i][j].isBusy()) {
+                            Log.d(TAG, String.valueOf(i + 1) + "is busy");
+                            long left_time_sec = (washers[i][j].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
+                            if (left_time_sec < 0) {
 
-                            washers[i].updateImformToDatabase(false, 0, null, true);
+                                washers[i][j].updateImformToDatabase(false, 0, null, true);
+                            }
+                            else {
+                                if(i == dormId-1) {
+                                    int left_hour = (int) left_time_sec / 3600;
+                                    int left_minute = (int) left_time_sec / 60 - left_hour * 60;
+                                    int left_sec = (int) left_time_sec - left_hour * 3600 - left_minute * 60;
+                                    String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
+                                    TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                    changed_washer_time.setText(left_time_str);
+                                }
+                            }
+                        }
+                        else if (washers[i][j].isWashDone()) {
+                            //busy하지 않고 wash가 done이면
+                            if(i == dormId-1) {
+                                TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                changed_washer_time.setText("세탁완료");
+                            }
                         }
                         else{
-                            int left_hour = (int) left_time_sec / 3600;
-                            int left_minute = (int) left_time_sec / 60 - left_hour * 60;
-                            int left_sec = (int) left_time_sec - left_hour * 3600 - left_minute * 60;
-                            String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
-                            TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(i + 1), "id", getPackageName()));
-                            changed_washer_time.setText(left_time_str);
+                            if(i == dormId-1){
+                                TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                changed_washer_time.setText("사용가능");
+                            }
                         }
-                    }
-                    if(washers[i].isWashDone()){
-                        //busy하지 않고 wash가 done이면
-                        TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(i + 1), "id", getPackageName()));
-                        changed_washer_time.setText("세탁완료");
 
                     }
                 }
@@ -167,10 +225,13 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<4;i++){
             timer[i].schedule(validate_washer_time, 0, 1000);
         }*/
+
+
     }
-    public void onclick_washer(View view, int washerId) {
+    public void onclick_washer(View view, int dormId, int washerId) {
         Intent InputTimeIntent = new Intent(MainActivity.this, InputTime.class);
         InputTimeIntent.putExtra("washerId",washerId); /*송신*/
+        InputTimeIntent.putExtra("dormId",dormId); /*송신*/
         startActivity(InputTimeIntent);
     }
     public int getResId(Context ctx, String id) {
