@@ -19,6 +19,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -73,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
 //                    }
                 }
                 g = new GlobalObject();
-                g.updateImformFromDatabase();
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                g.updateImformFromDatabase(queue);
             }
 
         }
@@ -139,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
             long destiny_time_millis = System.currentTimeMillis() + left_minute * 60 *1000;
 //            GlobalObject.washers[currentDormId -1][washerId-1].getImformFromDatabase();
             g = new GlobalObject();
-            g.updateImformFromDatabase();
+            RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+            g.updateImformFromDatabase(queue);
             if (GlobalObject.washers[currentDormId -1][washerId-1].isBusy()){
                 //세탁기 이미 돌아가고 있는중
                 Toast.makeText(getApplicationContext(), "이미 다른 사용자가 사용중인 세탁기입니다.", Toast.LENGTH_LONG).show();
@@ -177,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 //타이머 갱신
                 //Log.d("MainActivity", String.valueOf(System.currentTimeMillis()));
+                g = new GlobalObject();
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                g.updateImformFromDatabase(queue);
                 for(int i = 0; i<GlobalObject.dormNum; i++) {
                     for (int j = 0; j < GlobalObject.washerNum; j++) {
                         Log.d(TAG, "is wash done" + String.valueOf(i + 1) + String.valueOf(GlobalObject.washers[i][j].isWashDone()));

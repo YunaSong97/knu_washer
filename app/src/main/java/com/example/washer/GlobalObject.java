@@ -63,10 +63,10 @@ public class GlobalObject extends Application {
 
     }
 
-    public boolean updateImformFromDatabase(){
-        final String[] washer_id = new String[1000];
-        final String[] washer_state = new String[1000];
-        final String[] destinyTime = new String[1000];
+    public boolean updateImformFromDatabase(RequestQueue queue){
+        final String[] washer_id = new String[100];
+        final String[] washer_state = new String[100];
+        final String[] destinyTime = new String[100];
         boolean getImformSuccess = true;
 
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -92,7 +92,7 @@ public class GlobalObject extends Application {
             }
         };
         getTimeRequest GetTimeRequest = new getTimeRequest(responseListener);
-        RequestQueue queue = Volley.newRequestQueue(getTime.this);
+//        RequestQueue queue = Volley.newRequestQueue(getTime.this);
         queue.add(GetTimeRequest);
         for (int i = 0; i < dormNum * washerNum; i++){
             int d = Integer.parseInt(washer_id[i].substring(1,2));
