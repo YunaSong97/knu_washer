@@ -64,7 +64,7 @@ public class Login extends AppCompatActivity {
                     LoginRequest loginRequest = new LoginRequest(usr_id, usr_password, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(Login.this);
                     queue.add(loginRequest);
-                }
+            }
                 else{
                     //로그인 과정 패스한다(개발용)
                     Intent intent = new Intent(Login.this, MainActivity.class);
