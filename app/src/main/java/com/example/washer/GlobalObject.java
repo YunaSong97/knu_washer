@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.UserHandle;
+import android.util.Log;
 import android.view.Display;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,8 @@ public class GlobalObject extends Application {
     static String usr_id = "";
     static String dorm_name = "";
 
+    private static final String TAG = "GlobalObject";
+
     static int test = 0;
 
     @Override
@@ -73,6 +76,7 @@ public class GlobalObject extends Application {
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.d(TAG,String.valueOf(response));
                     JSONObject jsonObject = new JSONObject(response);
                     boolean success = jsonObject.getBoolean("success");
                     if(success){ //가져오기에 성공한 경우
@@ -82,8 +86,18 @@ public class GlobalObject extends Application {
                         for(int i=0; i<jsonArray.length(); i++){
                             JSONObject one_jsonObject = jsonArray.getJSONObject(i);
                             washer_id[i] = one_jsonObject.getString("washer_id")+i;
+                            Log.d(TAG, one_jsonObject.getString("washer_id")+i);
                             washer_state[i] = one_jsonObject.getString("washer_state")+i;
                             destinyTime[i] = one_jsonObject.getString("destinyTime")+i;
+                        }
+                        for (int i = 0; i < dormNum * washerNum; i++){
+                            Log.d(TAG, washer_id[i]);
+                            int d = Integer.parseInt(washer_id[i].substring(1,2));
+                            int w = Integer.parseInt(washer_id[i].substring(3,4));
+                            washers[d-1][w-1].setState(washer_state[i]);
+                            washers[d-1][w-1].setDestiny_millis_time(Long.parseLong(destinyTime[i]));
+
+
                         }
                     }
                 } catch (JSONException e) {
@@ -94,14 +108,8 @@ public class GlobalObject extends Application {
         getTimeRequest GetTimeRequest = new getTimeRequest(responseListener);
 //        RequestQueue queue = Volley.newRequestQueue(getTime.this);
         queue.add(GetTimeRequest);
-        for (int i = 0; i < dormNum * washerNum; i++){
-            int d = Integer.parseInt(washer_id[i].substring(1,2));
-            int w = Integer.parseInt(washer_id[i].substring(3,4));
-            washers[d-1][w-1].setState(washer_state[i]);
-            washers[d-1][w-1].setDestiny_millis_time(Long.parseLong(destinyTime[i]));
+        //이거하고 바로 하면 안됨 시간이 걸리기 때문에 처리는 전부 안에서 해줘야된다
 
-
-        }
 //        //**업데이트 필요!!  this.id를 통해 DB에서 데이터 받아온다
 //        boolean getImformSuccess = true;
 ////        this.destiny_millis_time = 0;
