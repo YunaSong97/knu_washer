@@ -1,6 +1,7 @@
 package com.example.washer;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,6 +13,7 @@ public class Washer implements Cloneable {
     private Button button;
     private boolean washDone = false;
     private String usingUserId = "default";
+    private static final String TAG = "Washer";
 
     public Washer(int dormId, int id) {
         this.id = id;
@@ -137,5 +139,34 @@ public class Washer implements Cloneable {
 
     public void setButton(Button button) {
         this.button = button;
+    }
+
+    public String getState(){
+        if (busy){
+            return "busy";
+        }
+        else if(washDone){
+            return "done";
+        }
+        else{
+            return "able";
+        }
+    }
+    public void setState(String state){
+        if (state == "busy"){
+            busy = true;
+            washDone = false;
+        }
+        else if(state == "done"){
+            busy = false;
+            washDone = true;
+        }
+        else if(state == "able"){
+            busy = false;
+            washDone = false;
+        }
+        else{
+            Log.e(TAG, "setState error! 불가능한 state입니다.");
+        }
     }
 }
