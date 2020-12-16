@@ -1,10 +1,13 @@
 package com.example.washer;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -64,6 +67,7 @@ public class Washer implements Cloneable {
         //**업데이트 필요!!  server에 destiny_millis_time 업데이트
         this.setDestiny_millis_time(destiny_millis_time);
         //setTime 추가
+
 
         //**업데이트 필요!!  server에 busy를 업데이트
         this.setBusy(busy);
