@@ -11,6 +11,7 @@
     <!-- 저장공간에 관련된 여러 권한들 -->
 
     <application
+        android:name=".GlobalObject"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Washer"
@@ -31,5 +32,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".InputTime" />
     </application>
+
+
 
 </manifest>

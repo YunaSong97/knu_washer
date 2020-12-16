@@ -4,20 +4,26 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
-public class Washer {
+public class Washer implements Cloneable {
     private boolean busy = false;
     private int id;
     private int dormId;
     private long destiny_millis_time = 0;
-    private final Button button;
+    private Button button;
     private boolean washDone = false;
     private String usingUserId = "default";
 
-    public Washer(int dormId, int id, Button button) {
+    public Washer(int dormId, int id) {
         this.id = id;
         this.dormId = dormId;
-        this.button = button;
+//        this.button = button;
 
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        //CloneNotSupportedException 처리
+        return super.clone();
     }
 
     public boolean getImformFromDatabase(){
@@ -127,5 +133,9 @@ public class Washer {
 
     public void setWashDone(boolean washDone) {
         this.washDone = washDone;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
     }
 }
