@@ -10,9 +10,7 @@
     android:id="@+id/drawer_layout"
     tools:context=".MainActivity">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -23,14 +21,8 @@
         android:background="#DA2127"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
-        <Button
-            android:id="@+id/btn_hidden"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="350dp"
-            android:background="#DA2127"
-            />
         <TextView
             android:id="@+id/usr_dorm"
             android:layout_width="match_parent"
@@ -39,6 +31,13 @@
             android:textColor="#FFFFFF"
             android:gravity="center"
             android:textSize="25dp"/>
+
+        <Button
+            android:id="@+id/btn_hidden"
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="-30dp"
+            android:background="@android:color/transparent" />
     </LinearLayout>
 
     <LinearLayout
