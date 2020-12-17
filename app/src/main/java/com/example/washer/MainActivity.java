@@ -52,6 +52,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        final GlobalObject GlobalObject = (GlobalObject) getApplicationContext();
+
+        Button listbtn = (Button) findViewById(R.id.list_btn);
+        listbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LogActivity.class);
+                startActivity(intent);
+            }
+        });
+
         GlobalObject.test += 1;
         Log.d("==========test=========", String.valueOf(GlobalObject.test));
         Intent intent = getIntent();
