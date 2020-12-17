@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                                     // Intent intent = new Intent(InputTime.this, MainActivity.class);
                                     // startActivity(intent);
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                             } catch (JSONException e) {
