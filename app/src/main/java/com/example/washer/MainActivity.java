@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                                                 JSONObject jsonObject = new JSONObject(response);
                                                 boolean success = jsonObject.getBoolean("success");
                                                 if (success) {
-                                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
                                                     // Intent intent = new Intent(InputTime.this, MainActivity.class);
                                                     // startActivity(intent);
                                                 } else {
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                                                     JSONObject jsonObject = new JSONObject(response);
                                                     boolean success = jsonObject.getBoolean("success");
                                                     if (success) {
-                                                        Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+//                                                        Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
                                                         // Intent intent = new Intent(InputTime.this, MainActivity.class);
                                                         // startActivity(intent);
                                                     } else {
