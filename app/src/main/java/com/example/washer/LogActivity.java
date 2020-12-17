@@ -46,7 +46,7 @@ public class LogActivity extends AppCompatActivity {
 
                         usr_num[i] = jsonObject.getString("usr_num");
                         start_time[i] = jsonObject.getString("start_time");
-                        adapter.addItem(washer_id[i], start_time[i]);
+                        adapter.addItem((GlobalObject.dorm_name+ " " + washer_id[i].substring(1,2)+"층 "+washer_id[i].substring(3,4)+("번 세탁기")), start_time[i]);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -58,7 +58,5 @@ public class LogActivity extends AppCompatActivity {
         getLogRequest GetLogRequest = new getLogRequest(GlobalObject.usr_id, responseListener);
         RequestQueue requestQueue = Volley.newRequestQueue(LogActivity.this);
         requestQueue.add(GetLogRequest);
-
-
     }
 }
