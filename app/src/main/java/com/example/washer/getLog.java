@@ -6,7 +6,9 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +44,8 @@ public class getLog extends AppCompatActivity{
                 }
             }
         };
-
+        getLogRequest GetLogRequest = new getLogRequest(GlobalObject.usr_id, responseListener);
+        RequestQueue requestQueue = Volley.newRequestQueue(getLog.this);
+        requestQueue.add(GetLogRequest);
     }
 }
