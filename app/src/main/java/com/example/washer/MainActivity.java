@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                                     // startActivity(intent);
                                 } else {
                                     //Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
-                                    return;
+//                                    return;
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -229,11 +229,13 @@ public class MainActivity extends AppCompatActivity {
                 for(int i = 0; i<GlobalObject.dormNum; i++) {
                     for (int j = 0; j < GlobalObject.washerNum; j++) {
                         Log.d(TAG, "is wash done" + String.valueOf(i + 1) + String.valueOf(GlobalObject.washers[i][j].isWashDone()));
+                        long left_time_sec = (GlobalObject.washers[i][j].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
+                        int left_hour = (int) left_time_sec / 3600;
+                        int left_minute = (int) left_time_sec / 60 - left_hour * 60;
+                        int left_sec = (int) left_time_sec - left_hour * 3600 - left_minute * 60;
                         if (GlobalObject.washers[i][j].isBusy()) {
                             Log.d(TAG, String.valueOf(i + 1) + "is busy");
 
-
-                            long left_time_sec = (GlobalObject.washers[i][j].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
                             Log.d(TAG, "현재 : " + String.valueOf(System.currentTimeMillis()) + "  destiny : " + GlobalObject.washers[i][j].getDestiny_millis_time() + "남은 sec : " + left_time_sec);
                             if (left_time_sec < 0) {
                                 //사용완료 전송
@@ -257,16 +259,14 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     };
-                                    setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(0), "done", responseListener);
+                                    long wash_done_over_millis = GlobalObject.washers[i][j].getDestiny_millis_time();//1분지나면 다시 사용완료하게 할건데 그냥 여기선 그대로 넣고 및에서 leftsec < -60이런식으로 처리할거임
+                                    setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(wash_done_over_millis), "done", responseListener);
                                     RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
                                     queue_.add(settime);
                                 }
                             }
                             else {
                                 if(i == currentDormId -1) {
-                                    int left_hour = (int) left_time_sec / 3600;
-                                    int left_minute = (int) left_time_sec / 60 - left_hour * 60;
-                                    int left_sec = (int) left_time_sec - left_hour * 3600 - left_minute * 60;
                                     String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
                                     TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
                                     changed_washer_time.setText(left_time_str);
@@ -276,10 +276,47 @@ public class MainActivity extends AppCompatActivity {
                         else if (GlobalObject.washers[i][j].isWashDone()) {
                             //busy하지 않고 wash가 done이면
                             if(i == currentDormId -1) {
-                                TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
-                                //Button btn = (Button)findViewById(R.id.OK_bt);
-                                //btn.setEnabled(true);
-                                changed_washer_time.setText("세탁완료");
+                                long over_time_sec = -left_time_sec;
+                                int over_hour = (int) over_time_sec / 3600;
+                                int over_minute = (int) over_time_sec / 60 - over_hour * 60;
+                                int over_sec = (int) over_time_sec - over_hour * 3600 - over_minute * 60;
+
+                                if (over_time_sec>20){
+                                    //다시 사용가능으로 변경
+                                    {
+                                        Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response);
+                                                    boolean success = jsonObject.getBoolean("success");
+                                                    if (success) {
+                                                        Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+                                                        // Intent intent = new Intent(InputTime.this, MainActivity.class);
+                                                        // startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+                                                        return;
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        };
+//                                        long wash_done_over_millis = GlobalObject.washers[i][j].getDestiny_millis_time() + 60*1000;//1분지나면 다시 사용완료
+                                        setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(0), "able", responseListener);
+                                        RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
+                                        queue_.add(settime);
+                                    }
+                                }
+                                else{
+                                    String over_time_str = "세탁완료 (+" + String.valueOf(over_hour) + ":" + String.valueOf(over_minute) + ":" + String.valueOf(over_sec) + ")";
+                                    TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                    //Button btn = (Button)findViewById(R.id.OK_bt);
+                                    //btn.setEnabled(true);
+
+                                    changed_washer_time.setText(over_time_str);
+                                }
                             }
                         }
                         else{
