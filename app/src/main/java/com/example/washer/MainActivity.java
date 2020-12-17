@@ -239,6 +239,9 @@ public class MainActivity extends AppCompatActivity {
                         changed_washer_time.setText("남은시간 : " + "0:" + String.valueOf(minute));
                     }
             }
+//            Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(1 + 1), "id", getPackageName()));
+//            btn.setBackgroundResource(getResources().getIdentifier("able" + String.valueOf(1 + 1) + "_btn", "id", getPackageName()));
+//            btn.setBackgroundResource(getContext().getResources().getIdentifier("busy4_btn", "drawable", getContext().getPackageName()););
         }
         else{
             //LoginActivity에서 넘어옴
@@ -295,10 +298,18 @@ public class MainActivity extends AppCompatActivity {
                                     queue_.add(settime);
 
                                 }
+                                if(i == currentDormId -1){
+                                    Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                    btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
+//                                    btn.setBackgroundResource(R.id.able1_btn);
+                                }
 
                             }
                             else {
                                 if(i == currentDormId -1) {
+                                    Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                    btn.setBackgroundResource(getResources().getIdentifier("@drawable/busy" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
+
                                     String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
                                     TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
                                     changed_washer_time.setText(left_time_str);
@@ -340,6 +351,7 @@ public class MainActivity extends AppCompatActivity {
                                         RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
                                         queue_.add(settime);
                                     }
+
                                 }
                                 else{
                                     String over_time_str = "세탁완료 (+" + String.valueOf(over_hour) + ":" + String.valueOf(over_minute) + ":" + String.valueOf(over_sec) + ")";
