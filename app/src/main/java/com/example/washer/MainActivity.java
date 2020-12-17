@@ -193,6 +193,32 @@ public class MainActivity extends AppCompatActivity {
                     queue.add(settime);
                 }
 
+                {
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                boolean success = jsonObject.getBoolean("success");
+                                if (success) {
+                                    //Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+                                    // Intent intent = new Intent(InputTime.this, MainActivity.class);
+                                    // startActivity(intent);
+                                } else {
+                                    //Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+//                                    return;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    inputLogRequest setlog = new inputLogRequest(GlobalObject.usr_id, "d" + Integer.toString(currentDormId) + "w" + Integer.toString(washerId), responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                    queue.add(setlog);
+                }
+
+
 //                boolean success = GlobalObject.washers[currentDormId -1][washerId-1].updateImformToDatabase(true, destiny_time_millis, GlobalObject.usr_id, false);
                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
                 Log.d(TAG, String.valueOf(washerId));
