@@ -42,5 +42,6 @@ public class getLog extends AppCompatActivity{
                 }
             }
         };
+
     }
 }
