@@ -223,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
 
 //                boolean success = GlobalObject.washers[currentDormId -1][washerId-1].updateImformToDatabase(true, destiny_time_millis, GlobalObject.usr_id, false);
                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
+
+
                 Log.d(TAG, String.valueOf(washerId));
                     if (hour != 0) {
                         Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
