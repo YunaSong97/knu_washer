@@ -36,7 +36,6 @@ public class getLog extends AppCompatActivity{
                     for(int i=0; i<jsonArray.length(); i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         washer_id[i] = jsonObject.getString("washer_id");
-                        usr_num[i] = jsonObject.getString("usr_num");
                         start_time[i] = jsonObject.getString("start_time");
                     }
                 } catch (JSONException e) {

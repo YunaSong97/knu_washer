@@ -18,8 +18,7 @@ import org.json.JSONObject;
 
 public class LogActivity extends AppCompatActivity {
     private ListView listview;
-    private MyListAdapter adapter;
-    int count=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +26,8 @@ public class LogActivity extends AppCompatActivity {
 
         listview = findViewById(R.id.log_view);
 
+        final MyListAdapter adapter;
         adapter = new MyListAdapter();
-
         listview=(ListView)findViewById(R.id.log_view);
         listview.setAdapter(adapter);
 
@@ -39,36 +38,27 @@ public class LogActivity extends AppCompatActivity {
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     for(int i=0; i<jsonArray.length(); i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         washer_id[i] = jsonObject.getString("washer_id");
+
                         usr_num[i] = jsonObject.getString("usr_num");
                         start_time[i] = jsonObject.getString("start_time");
-                        count++;
+                        adapter.addItem(washer_id[i], start_time[i]);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                adapter.notifyDataSetChanged();
             }
         };
+
         getLogRequest GetLogRequest = new getLogRequest(GlobalObject.usr_id, responseListener);
         RequestQueue requestQueue = Volley.newRequestQueue(LogActivity.this);
         requestQueue.add(GetLogRequest);
 
 
-        for(int i=0;i<count;i++){
-            adapter.addItem(washer_id[i], start_time[i]);
-        }
-
-        /*adapter.addItem("누리관1층 1번", "2020-12-17-12:12:12");
-        adapter.addItem("누리관1층 1번", "2020-12-17-12:12:12");
-        adapter.addItem("누리관1층 1번", "2020-12-17-12:12:12");
-        adapter.addItem("누리관1층 1번", "2020-12-17-12:12:12");*/
-
-        adapter.notifyDataSetChanged();
     }
 }
