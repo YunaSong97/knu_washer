@@ -115,6 +115,7 @@
             android:max="24"
             android:layout_gravity="center_horizontal"
             android:progress="10"
+
             android:secondaryProgress="10" />
 
         <TextView

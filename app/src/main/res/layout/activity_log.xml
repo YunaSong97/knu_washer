@@ -12,6 +12,27 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ScrollView
+                android:id="@+id/log_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="730dp"
+                android:fillViewport="true">
+
+                <ListView
+                    android:id="@+id/log_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="730dp"
+                    android:listSelector="@android:color/transparent"
+                    android:paddingTop="70dp">
+                </ListView>
+            </ScrollView>
+
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/linearLayout5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,27 +61,7 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
 
-            <ScrollView
-                android:id="@+id/log_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="730dp"
-                android:fillViewport="true">
-
-                <ListView
-                    android:id="@+id/log_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="730dp"
-                    android:listSelector="@android:color/transparent"
-                    android:paddingTop="70dp">
-                </ListView>
-            </ScrollView>
-
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
