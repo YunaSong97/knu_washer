@@ -301,8 +301,8 @@ public class MainActivity extends AppCompatActivity {
                                 if(i == currentDormId -1){
                                     Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
                                     btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
-                                    TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
-                                    changed_washer_time.bringToFront();
+//                                    TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+//                                    changed_washer_time.bringToFront();
                                 }
 
                             }
@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
                                     String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
                                     TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
                                     changed_washer_time.setText(left_time_str);
-                                    changed_washer_time.bringToFront();
+//                                    changed_washer_time.bringToFront();
                                 }
                             }
                         }
