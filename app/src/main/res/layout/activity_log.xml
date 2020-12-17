@@ -20,14 +20,24 @@
             app:layout_constraintStart_toStartOf="parent"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/log_back_btn"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center"
+                android:background="@drawable/back_btn" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:text="내 사용 기록"
+                android:layout_marginLeft="-50dp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:gravity="center"
                 android:textSize="25dp"/>
+
 
         </LinearLayout>
         <LinearLayout
@@ -46,7 +56,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="730dp"
                     android:listSelector="@android:color/transparent"
-                    android:paddingTop="70dp"></ListView>
+                    android:paddingTop="70dp">
+                </ListView>
             </ScrollView>
 
         </LinearLayout>
