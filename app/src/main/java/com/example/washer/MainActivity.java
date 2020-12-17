@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                                 int over_minute = (int) over_time_sec / 60 - over_hour * 60;
                                 int over_sec = (int) over_time_sec - over_hour * 3600 - over_minute * 60;
 
-                                if (over_time_sec>20){
+                                if (over_time_sec>60){
                                     //다시 사용가능으로 변경
                                     {
                                         Response.Listener<String> responseListener = new Response.Listener<String>() {
