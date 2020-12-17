@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                                                 JSONObject jsonObject = new JSONObject(response);
                                                 boolean success = jsonObject.getBoolean("success");
                                                 if (success) {
-                                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
                                                     // Intent intent = new Intent(InputTime.this, MainActivity.class);
                                                     // startActivity(intent);
                                                 } else {
@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
                                 int over_minute = (int) over_time_sec / 60 - over_hour * 60;
                                 int over_sec = (int) over_time_sec - over_hour * 3600 - over_minute * 60;
 
-                                if (over_time_sec>20){
+                                if (over_time_sec>60){
                                     //다시 사용가능으로 변경
                                     {
                                         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
                                                     JSONObject jsonObject = new JSONObject(response);
                                                     boolean success = jsonObject.getBoolean("success");
                                                     if (success) {
-                                                        Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+//                                                        Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
                                                         // Intent intent = new Intent(InputTime.this, MainActivity.class);
                                                         // startActivity(intent);
                                                     } else {
@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         Timer timer = new Timer();
-        timer.schedule(validate_washer_time, 0, 5000);
+        timer.schedule(validate_washer_time, 0, 1000);
 
     }
     public void onclick_washer(View view, int dormId, int washerId) {
