@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         };
 //                                        long wash_done_over_millis = GlobalObject.washers[i][j].getDestiny_millis_time() + 60*1000;//1분지나면 다시 사용완료
-                                        setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(0), "done", responseListener);
+                                        setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(0), "able", responseListener);
                                         RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
                                         queue_.add(settime);
                                     }
