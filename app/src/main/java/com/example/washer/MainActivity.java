@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         //기숙사 이름 설정
         TextView dormText = findViewById(R.id.usr_dorm);
 
-        dormText.setText(GlobalObject.dorm_name + String.valueOf(currentDormId));
+        dormText.setText(GlobalObject.dorm_name + " " + String.valueOf(currentDormId)+"층");
         
 
         //버튼 설정
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             dormButton[i].setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     currentDormId = finalI + 1;
-                    Toast.makeText(getApplicationContext(), "dorm " + String.valueOf(finalI+1) + " 선택", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), String.valueOf(finalI+1) + " 층 선택", Toast.LENGTH_SHORT).show();
 //                    setContentView(R.layout.activity_main);
                     DrawerLayout sideLayout = (DrawerLayout) findViewById(R.id.drawer_layout);//내가 지정한 id가 아님 그냥 drawer_layout가 기본인듯
                     TextView dormText = findViewById(R.id.usr_dorm);
@@ -289,7 +290,9 @@ public class MainActivity extends AppCompatActivity {
                                     setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(wash_done_over_millis), "done", responseListener);
                                     RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
                                     queue_.add(settime);
+
                                 }
+
                             }
                             else {
                                 if(i == currentDormId -1) {
