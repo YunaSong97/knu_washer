@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //
 
         GlobalObject.test += 1;
         Log.d("==========test=========", String.valueOf(GlobalObject.test));

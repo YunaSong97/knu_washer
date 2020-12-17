@@ -2,9 +2,14 @@ package com.example.washer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,7 +23,7 @@ import org.json.JSONObject;
 
 public class LogActivity extends AppCompatActivity {
     private ListView listview;
-
+    Button backBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +40,14 @@ public class LogActivity extends AppCompatActivity {
         final String[] usr_num = new String[100];
         final String[] start_time = new String[100];
 
+        backBtn = (Button) findViewById(R.id.log_back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent( LogActivity.this, MainActivity.class);
+                startActivity(intent);
+                }
+        });
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
