@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 //                    setContentView(R.layout.activity_main);
                     DrawerLayout sideLayout = (DrawerLayout) findViewById(R.id.drawer_layout);//내가 지정한 id가 아님 그냥 drawer_layout가 기본인듯
                     TextView dormText = findViewById(R.id.usr_dorm);
-                    dormText.setText(GlobalObject.dorm_name + String.valueOf(currentDormId));
+                    dormText.setText(GlobalObject.dorm_name + " " +String.valueOf(currentDormId)+"층");
                     sideLayout.closeDrawers();
                 }
             });
