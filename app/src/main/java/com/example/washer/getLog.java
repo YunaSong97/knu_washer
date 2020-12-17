@@ -1,6 +1,7 @@
 package com.example.washer;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -21,7 +22,6 @@ public class getLog extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
-
         log_view = findViewById(R.id.log_view);
 
         final String[] washer_id = new String[100];
