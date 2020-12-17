@@ -1,6 +1,7 @@
 package com.example.washer;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +72,8 @@ public class Login extends AppCompatActivity {
             LoginRequest loginRequest = new LoginRequest(usr_id_dev, usr_password_dev, responseListener);
             RequestQueue queue = Volley.newRequestQueue(Login.this);
             queue.add(loginRequest);
+            MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.done_ring);
+            mediaPlayer.start();
         }
 
         btn_login.setOnClickListener(new View.OnClickListener() {
