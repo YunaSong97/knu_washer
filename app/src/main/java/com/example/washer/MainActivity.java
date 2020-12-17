@@ -301,7 +301,8 @@ public class MainActivity extends AppCompatActivity {
                                 if(i == currentDormId -1){
                                     Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
                                     btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
-//                                    btn.setBackgroundResource(R.id.able1_btn);
+                                    TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                    changed_washer_time.bringToFront();
                                 }
 
                             }
@@ -313,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
                                     String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
                                     TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
                                     changed_washer_time.setText(left_time_str);
+                                    changed_washer_time.bringToFront();
                                 }
                             }
                         }
@@ -351,6 +353,8 @@ public class MainActivity extends AppCompatActivity {
                                         RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
                                         queue_.add(settime);
                                     }
+                                    Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                    btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
 
                                 }
                                 else{
@@ -360,6 +364,8 @@ public class MainActivity extends AppCompatActivity {
                                     //btn.setEnabled(true);
 
                                     changed_washer_time.setText(over_time_str);
+                                    Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                    btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
                                 }
                             }
                         }
@@ -369,6 +375,8 @@ public class MainActivity extends AppCompatActivity {
                                 //Button btn = (Button)findViewById(R.id.OK_bt);
                                 //btn.setEnabled(true);
                                 changed_washer_time.setText("사용가능");
+                                Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
                             }
                         }
 
