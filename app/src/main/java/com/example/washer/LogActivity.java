@@ -39,6 +39,8 @@ public class LogActivity extends AppCompatActivity {
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     for(int i=0; i<jsonArray.length(); i++){
@@ -56,8 +58,6 @@ public class LogActivity extends AppCompatActivity {
         getLogRequest GetLogRequest = new getLogRequest(GlobalObject.usr_id, responseListener);
         RequestQueue requestQueue = Volley.newRequestQueue(LogActivity.this);
         requestQueue.add(GetLogRequest);
-
-        Toast.makeText(getApplicationContext(), washer_id[1], Toast.LENGTH_LONG).show();
 
 
         for(int i=0;i<count;i++){
