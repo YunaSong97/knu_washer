@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         Timer timer = new Timer();
-        timer.schedule(validate_washer_time, 0, 5000);
+        timer.schedule(validate_washer_time, 0, 1000);
 
     }
     public void onclick_washer(View view, int dormId, int washerId) {
