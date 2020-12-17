@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         //기숙사 이름 설정
         TextView dormText = findViewById(R.id.usr_dorm);
 
-        dormText.setText(GlobalObject.dorm_name + String.valueOf(currentDormId));
+        dormText.setText(GlobalObject.dorm_name + " " + String.valueOf(currentDormId)+"층");
         
 
         //버튼 설정
