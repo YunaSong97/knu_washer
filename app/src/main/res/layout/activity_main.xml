@@ -73,10 +73,12 @@
                 <TextView
                     android:id="@+id/washerLeftTime1"
                     android:layout_width="116dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-35dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginLeft="10dp"
+
                     android:text=""
                     android:textSize="14sp" />
             </LinearLayout>
@@ -94,14 +96,15 @@
                     android:id="@+id/washer2"
                     android:layout_width="170dp"
                     android:layout_height="250dp"
-                    android:background="@drawable/able1_btn" />
+                    android:background="@drawable/able2_btn" />
 
                 <TextView
                     android:id="@+id/washerLeftTime2"
                     android:layout_width="116dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-35dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginLeft="10dp"
                     android:text=""
                     android:textSize="14sp" />
@@ -130,14 +133,15 @@
                     android:id="@+id/washer3"
                     android:layout_width="170dp"
                     android:layout_height="250dp"
-                    android:background="@drawable/able1_btn" />
+                    android:background="@drawable/able3_btn" />
 
                 <TextView
                     android:id="@+id/washerLeftTime3"
                     android:layout_width="116dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-35dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginLeft="10dp"
                     android:text=""
                     android:textSize="14sp" />
@@ -156,14 +160,15 @@
                     android:id="@+id/washer4"
                     android:layout_width="170dp"
                     android:layout_height="250dp"
-                    android:background="@drawable/able1_btn" />
+                    android:background="@drawable/able4_btn" />
 
                 <TextView
                     android:id="@+id/washerLeftTime4"
                     android:layout_width="116dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-35dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginLeft="10dp"
                     android:text=""
                     android:textSize="14sp" />
