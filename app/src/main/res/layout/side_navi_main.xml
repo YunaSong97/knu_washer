@@ -30,7 +30,7 @@
         <TextView
             android:id="@+id/dorm1"
             android:layout_weight="2"
-            android:text = "dorm1 선택"
+            android:text = "1층 선택"
             android:textColor="#ff0000"
             android:gravity="center|center"
             android:textSize="25dp"
@@ -39,7 +39,7 @@
         <TextView
             android:id="@+id/dorm2"
             android:layout_weight="2"
-            android:text = "dorm2 선택"
+            android:text = "2층 선택"
             android:textColor="#ff0000"
             android:gravity="center|center"
             android:textSize="25dp"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/dorm3"
             android:layout_weight="2"
-            android:text = "dorm3 선택"
+            android:text = "3층 선택"
             android:textColor="#ff0000"
             android:gravity="center|center"
             android:textSize="25dp"
@@ -57,7 +57,7 @@
         <TextView
             android:id="@+id/dorm4"
             android:layout_weight="2"
-            android:text = "dorm4 선택"
+            android:text = "4층 선택"
             android:textColor="#ff0000"
             android:gravity="center|center"
             android:textSize="25dp"
