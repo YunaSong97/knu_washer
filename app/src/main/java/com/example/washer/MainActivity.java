@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,6 +53,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        final GlobalObject GlobalObject = (GlobalObject) getApplicationContext();
+
+        Button listbtn = (Button) findViewById(R.id.list_btn);
+        listbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LogActivity.class);
+                startActivity(intent);
+            }
+        });
+        //
+
         GlobalObject.test += 1;
         Log.d("==========test=========", String.valueOf(GlobalObject.test));
         Intent intent = getIntent();
@@ -96,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         //기숙사 이름 설정
         TextView dormText = findViewById(R.id.usr_dorm);
 
-        dormText.setText(GlobalObject.dorm_name + String.valueOf(currentDormId));
+        dormText.setText(GlobalObject.dorm_name + " " + String.valueOf(currentDormId)+"층");
         
 
         //버튼 설정
@@ -128,11 +140,11 @@ public class MainActivity extends AppCompatActivity {
             dormButton[i].setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     currentDormId = finalI + 1;
-                    Toast.makeText(getApplicationContext(), "dorm " + String.valueOf(finalI+1) + " 선택", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), String.valueOf(finalI+1) + " 층 선택", Toast.LENGTH_SHORT).show();
 //                    setContentView(R.layout.activity_main);
                     DrawerLayout sideLayout = (DrawerLayout) findViewById(R.id.drawer_layout);//내가 지정한 id가 아님 그냥 drawer_layout가 기본인듯
                     TextView dormText = findViewById(R.id.usr_dorm);
-                    dormText.setText(GlobalObject.dorm_name + String.valueOf(currentDormId));
+                    dormText.setText(GlobalObject.dorm_name + " " +String.valueOf(currentDormId)+"층");
                     sideLayout.closeDrawers();
                 }
             });
@@ -166,12 +178,12 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response);
                                 boolean success = jsonObject.getBoolean("success");
                                 if (success) {
-                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
                                     // Intent intent = new Intent(InputTime.this, MainActivity.class);
                                     // startActivity(intent);
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
-                                    return;
+                                    //Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+//                                    return;
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -183,8 +195,36 @@ public class MainActivity extends AppCompatActivity {
                     queue.add(settime);
                 }
 
+                {
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                boolean success = jsonObject.getBoolean("success");
+                                if (success) {
+                                    //Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+                                    // Intent intent = new Intent(InputTime.this, MainActivity.class);
+                                    // startActivity(intent);
+                                } else {
+                                    //Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+//                                    return;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    inputLogRequest setlog = new inputLogRequest(GlobalObject.usr_id, "d" + Integer.toString(currentDormId) + "w" + Integer.toString(washerId), responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                    queue.add(setlog);
+                }
+
+
 //                boolean success = GlobalObject.washers[currentDormId -1][washerId-1].updateImformToDatabase(true, destiny_time_millis, GlobalObject.usr_id, false);
                 TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(washerId), "id", getPackageName()));
+
+
                 Log.d(TAG, String.valueOf(washerId));
                     if (hour != 0) {
                         Toast.makeText(getApplicationContext(), String.valueOf(washerId) +
@@ -199,6 +239,9 @@ public class MainActivity extends AppCompatActivity {
                         changed_washer_time.setText("남은시간 : " + "0:" + String.valueOf(minute));
                     }
             }
+//            Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(1 + 1), "id", getPackageName()));
+//            btn.setBackgroundResource(getResources().getIdentifier("able" + String.valueOf(1 + 1) + "_btn", "id", getPackageName()));
+//            btn.setBackgroundResource(getContext().getResources().getIdentifier("busy4_btn", "drawable", getContext().getPackageName()););
         }
         else{
             //LoginActivity에서 넘어옴
@@ -219,11 +262,13 @@ public class MainActivity extends AppCompatActivity {
                 for(int i = 0; i<GlobalObject.dormNum; i++) {
                     for (int j = 0; j < GlobalObject.washerNum; j++) {
                         Log.d(TAG, "is wash done" + String.valueOf(i + 1) + String.valueOf(GlobalObject.washers[i][j].isWashDone()));
+                        long left_time_sec = (GlobalObject.washers[i][j].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
+                        int left_hour = (int) left_time_sec / 3600;
+                        int left_minute = (int) left_time_sec / 60 - left_hour * 60;
+                        int left_sec = (int) left_time_sec - left_hour * 3600 - left_minute * 60;
                         if (GlobalObject.washers[i][j].isBusy()) {
                             Log.d(TAG, String.valueOf(i + 1) + "is busy");
 
-
-                            long left_time_sec = (GlobalObject.washers[i][j].getDestiny_millis_time() - System.currentTimeMillis()) / 1000;
                             Log.d(TAG, "현재 : " + String.valueOf(System.currentTimeMillis()) + "  destiny : " + GlobalObject.washers[i][j].getDestiny_millis_time() + "남은 sec : " + left_time_sec);
                             if (left_time_sec < 0) {
                                 //사용완료 전송
@@ -235,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
                                                 JSONObject jsonObject = new JSONObject(response);
                                                 boolean success = jsonObject.getBoolean("success");
                                                 if (success) {
-                                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
                                                     // Intent intent = new Intent(InputTime.this, MainActivity.class);
                                                     // startActivity(intent);
                                                 } else {
@@ -247,29 +292,81 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     };
-                                    setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(0), "done", responseListener);
+                                    long wash_done_over_millis = GlobalObject.washers[i][j].getDestiny_millis_time();//1분지나면 다시 사용완료하게 할건데 그냥 여기선 그대로 넣고 및에서 leftsec < -60이런식으로 처리할거임
+                                    setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(wash_done_over_millis), "done", responseListener);
                                     RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
                                     queue_.add(settime);
+
                                 }
+                                if(i == currentDormId -1){
+                                    Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                    btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
+//                                    TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+//                                    changed_washer_time.bringToFront();
+                                }
+
                             }
                             else {
                                 if(i == currentDormId -1) {
-                                    int left_hour = (int) left_time_sec / 3600;
-                                    int left_minute = (int) left_time_sec / 60 - left_hour * 60;
-                                    int left_sec = (int) left_time_sec - left_hour * 3600 - left_minute * 60;
+                                    Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                    btn.setBackgroundResource(getResources().getIdentifier("@drawable/busy" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
+
                                     String left_time_str = "남은시간 : " + String.valueOf(left_hour) + ":" + String.valueOf(left_minute) + ":" + String.valueOf(left_sec);
                                     TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
                                     changed_washer_time.setText(left_time_str);
+//                                    changed_washer_time.bringToFront();
                                 }
                             }
                         }
                         else if (GlobalObject.washers[i][j].isWashDone()) {
                             //busy하지 않고 wash가 done이면
                             if(i == currentDormId -1) {
-                                TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
-                                //Button btn = (Button)findViewById(R.id.OK_bt);
-                                //btn.setEnabled(true);
-                                changed_washer_time.setText("세탁완료");
+                                long over_time_sec = -left_time_sec;
+                                int over_hour = (int) over_time_sec / 3600;
+                                int over_minute = (int) over_time_sec / 60 - over_hour * 60;
+                                int over_sec = (int) over_time_sec - over_hour * 3600 - over_minute * 60;
+
+                                if (over_time_sec>60){
+                                    //다시 사용가능으로 변경
+                                    {
+                                        Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response);
+                                                    boolean success = jsonObject.getBoolean("success");
+                                                    if (success) {
+//                                                        Toast.makeText(getApplicationContext(), "insert success", Toast.LENGTH_SHORT).show();
+                                                        // Intent intent = new Intent(InputTime.this, MainActivity.class);
+                                                        // startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "insert fail", Toast.LENGTH_SHORT).show();
+                                                        return;
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        };
+//                                        long wash_done_over_millis = GlobalObject.washers[i][j].getDestiny_millis_time() + 60*1000;//1분지나면 다시 사용완료
+                                        setTimeRequest settime = new setTimeRequest("d" + Integer.toString(i+1) + "w" + Integer.toString(j+1), Long.toString(0), "able", responseListener);
+                                        RequestQueue queue_ = Volley.newRequestQueue(MainActivity.this);
+                                        queue_.add(settime);
+                                    }
+                                    Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                    btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
+
+                                }
+                                else{
+                                    String over_time_str = "세탁완료 (+" + String.valueOf(over_hour) + ":" + String.valueOf(over_minute) + ":" + String.valueOf(over_sec) + ")";
+                                    TextView changed_washer_time = (TextView) findViewById(getResources().getIdentifier("washerLeftTime" + String.valueOf(j + 1), "id", getPackageName()));
+                                    //Button btn = (Button)findViewById(R.id.OK_bt);
+                                    //btn.setEnabled(true);
+
+                                    changed_washer_time.setText(over_time_str);
+                                    Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                    btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
+                                }
                             }
                         }
                         else{
@@ -278,6 +375,8 @@ public class MainActivity extends AppCompatActivity {
                                 //Button btn = (Button)findViewById(R.id.OK_bt);
                                 //btn.setEnabled(true);
                                 changed_washer_time.setText("사용가능");
+                                Button btn = (Button) findViewById(getResources().getIdentifier("washer" + String.valueOf(j + 1), "id", getPackageName()));
+                                btn.setBackgroundResource(getResources().getIdentifier("@drawable/able" + String.valueOf(j + 1) + "_btn", "drawable", getPackageName()));
                             }
                         }
 
@@ -296,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         Timer timer = new Timer();
-        timer.schedule(validate_washer_time, 0, 5000);
+        timer.schedule(validate_washer_time, 0, 1000);
 
     }
     public void onclick_washer(View view, int dormId, int washerId) {

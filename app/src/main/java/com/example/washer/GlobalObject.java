@@ -76,7 +76,7 @@ public class GlobalObject extends Application {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.d(TAG,String.valueOf(response));
+//                    Log.d(TAG,String.valueOf(response));
                         JSONArray jsonArray = new JSONArray(response);
 
 
@@ -84,12 +84,12 @@ public class GlobalObject extends Application {
                         for(int i=0; i<jsonArray.length(); i++){
                             JSONObject one_jsonObject = jsonArray.getJSONObject(i);
                             washer_id[i] = one_jsonObject.getString("washer_id")+i;
-                            Log.d(TAG, one_jsonObject.getString("washer_id")+i);
+//                            Log.d(TAG, one_jsonObject.getString("washer_id")+i);
                             washer_state[i] = one_jsonObject.getString("washer_state");
                             destinyTime[i] = one_jsonObject.getString("destinyTime");
                         }
                         for (int i = 0; i < dormNum * washerNum; i++){
-                            Log.d(TAG, washer_state[i].substring(0,4));
+//                            Log.d(TAG, washer_state[i].substring(0,4));
                             int d = Integer.parseInt(washer_id[i].substring(1,2));
                             int w = Integer.parseInt(washer_id[i].substring(3,4));
                             washers[d-1][w-1].setState(washer_state[i].substring(0,4));
